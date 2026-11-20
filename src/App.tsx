@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { useTheme, type ThemePref } from './lib/theme';
 import { useTimeTracker } from './lib/useTimeTracker';
+import { useAutoSync } from './lib/sync';
 import { streak, useProgress } from './lib/progress';
 import { Home } from './pages/Home';
 import { CourseMap } from './pages/CourseMap';
@@ -41,6 +42,7 @@ export function App() {
   const progress = useProgress();
   const { pathname } = useLocation();
   useTimeTracker();
+  useAutoSync();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);

@@ -20,15 +20,25 @@ export interface Progress {
   code: Record<string, CodeFiles & { updatedAt: string; passed: boolean; title: string; lesson: string }>;
   /** секунды занятий по дням: { '2026-11-20': 3600 } */
   activity: Record<string, number>;
-  checklists: Record<string, { checked: Record<string, boolean>; note?: string }>;
+  /** время занятий на других устройствах (приходит при синхронизации): { deviceId: { день: секунды } } */
+  otherActivity: Record<string, Record<string, number>>;
+  /** случайный идентификатор этого браузера — нужен, чтобы складывать время с разных устройств */
+  deviceId: string;
+  checklists: Record<string, ChecklistState>;
   settings: { unlockAll: boolean; dailyGoalMin: number };
 }
+
+export interface ChecklistState { checked: Record<string, boolean>; note?: string; updatedAt?: string }
+
+const newDeviceId = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 
 const empty = (): Progress => ({
   version: 1,
   lessons: {},
   code: {},
   activity: {},
+  otherActivity: {},
+  deviceId: newDeviceId(),
   checklists: {},
   settings: { unlockAll: false, dailyGoalMin: 60 },
 });
@@ -38,7 +48,7 @@ function load(): Progress {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return empty();
     const data = JSON.parse(raw);
-    return { ...empty(), ...data, settings: { ...empty().settings, ...data.settings } };
+    return { ...empty(), ...data, deviceId: data.deviceId || newDeviceId(), settings: { ...empty().settings, ...data.settings } };
   } catch {
     return empty();
   }
@@ -46,9 +56,21 @@ function load(): Progress {
 
 let state: Progress = load();
 const listeners = new Set<() => void>();
+const changeListeners = new Set<() => void>();
 
-function set(updater: (p: Progress) => Progress) {
+/** Подписка на изменения, сделанные на этом устройстве (для синхронизации) */
+export function onLocalChange(cb: () => void) {
+  changeListeners.add(cb);
+  return () => {
+    changeListeners.delete(cb);
+  };
+}
+
+export const getProgress = () => state;
+
+function set(updater: (p: Progress) => Progress, fromSync = false) {
   state = updater(state);
+  if (!fromSync) changeListeners.forEach((l) => l());
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {
@@ -95,8 +117,18 @@ export const actions = {
       };
     });
   },
-  setChecklist(id: string, value: { checked: Record<string, boolean>; note?: string }) {
-    set((p) => ({ ...p, checklists: { ...p.checklists, [id]: value } }));
+  setChecklist(id: string, value: ChecklistState) {
+    set((p) => ({ ...p, checklists: { ...p.checklists, [id]: { ...value, updatedAt: new Date().toISOString() } } }));
+  },
+  /** Применить прогресс, объединённый с сервером */
+  applySync(merged: { lessons: Progress['lessons']; code: Progress['code']; checklists: Progress['checklists']; activityByDevice: Record<string, Record<string, number>> }) {
+    set((p) => {
+      const mine = { ...(merged.activityByDevice[p.deviceId] ?? {}) };
+      for (const [day, sec] of Object.entries(p.activity)) mine[day] = Math.max(mine[day] ?? 0, sec);
+      const others = { ...merged.activityByDevice };
+      delete others[p.deviceId];
+      return { ...p, lessons: merged.lessons, code: merged.code, checklists: merged.checklists, activity: mine, otherActivity: others };
+    }, true);
   },
   setSettings(patch: Partial<Progress['settings']>) {
     set((p) => ({ ...p, settings: { ...p.settings, ...patch } }));
@@ -104,10 +136,10 @@ export const actions = {
   importJSON(text: string) {
     const data = JSON.parse(text);
     if (!data || data.version !== 1 || typeof data.lessons !== 'object') throw new Error('Неверный формат файла');
-    set(() => ({ ...empty(), ...data, settings: { ...empty().settings, ...data.settings } }));
+    set((p) => ({ ...empty(), ...data, deviceId: p.deviceId, otherActivity: data.otherActivity ?? {}, settings: { ...empty().settings, ...data.settings } }));
   },
   reset() {
-    set(() => empty());
+    set((p) => ({ ...empty(), deviceId: p.deviceId }));
   },
 };
 
@@ -154,8 +186,17 @@ export function nextLesson(p: Progress) {
   return allLessons.find(({ module, lesson }) => lessonStatus(p, module, lesson) === 'open') ?? null;
 }
 
+/** Время занятий по дням со всех устройств */
+export function allActivity(p: Progress): Record<string, number> {
+  const sum: Record<string, number> = { ...p.activity };
+  for (const days of Object.values(p.otherActivity ?? {}))
+    for (const [day, sec] of Object.entries(days)) sum[day] = (sum[day] ?? 0) + sec;
+  return sum;
+}
+
 export function streak(p: Progress) {
-  const active = (d: string) => (p.activity[d] ?? 0) >= 60;
+  const act = allActivity(p);
+  const active = (d: string) => (act[d] ?? 0) >= 60;
   const d = new Date();
   const fmt = (x: Date) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
   if (!active(fmt(d))) d.setDate(d.getDate() - 1); // сегодня ещё не занимались — стрик не сгорел
@@ -167,7 +208,7 @@ export function streak(p: Progress) {
   return n;
 }
 
-export const totalSeconds = (p: Progress) => Object.values(p.activity).reduce((a, b) => a + b, 0);
+export const totalSeconds = (p: Progress) => Object.values(allActivity(p)).reduce((a, b) => a + b, 0);
 
 export const LEVELS = ['Новичок', 'Знакомство', 'Базовый', 'Уверенный', 'Продвинутый', 'Дизайн-инженер'];
 

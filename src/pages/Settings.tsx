@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { actions, exportJSON, totalSeconds, useProgress } from '../lib/progress';
+import { SyncPanel } from '../components/SyncPanel';
 
 export function Settings() {
   const p = useProgress();
@@ -26,10 +27,11 @@ export function Settings() {
     <div className="container">
       <div className="page-head">
         <h1>Прогресс и настройки</h1>
-        <p>Прогресс хранится только в этом браузере (localStorage). Чтобы перенести его на телефон или другой компьютер — экспортируйте JSON и импортируйте там.</p>
+        <p>Прогресс хранится в браузере (localStorage). Включите синхронизацию, чтобы заниматься с нескольких устройств, или переносите его вручную через JSON.</p>
       </div>
+      <SyncPanel />
       <div className="card stack">
-        <h3>Резервная копия</h3>
+        <h3>Резервная копия (вручную)</h3>
         <div className="row">
           <button className="btn btn-primary" onClick={download}>Экспорт в JSON</button>
           <button className="btn" onClick={() => file.current?.click()}>Импорт из JSON</button>

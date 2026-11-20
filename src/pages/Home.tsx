@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { modules, lessonKey } from '../lib/content';
-import { isLessonDone, nextLesson, skillStats, streak, today, totalSeconds, useProgress } from '../lib/progress';
+import { allActivity, isLessonDone, nextLesson, skillStats, streak, today, totalSeconds, useProgress } from '../lib/progress';
 import { Radar } from '../components/Radar';
 import { plural } from '../App';
 
 export function Home() {
   const p = useProgress();
   const next = nextLesson(p);
-  const todayMin = Math.floor((p.activity[today()] ?? 0) / 60);
+  const todayMin = Math.floor((allActivity(p)[today()] ?? 0) / 60);
   const goal = p.settings.dailyGoalMin;
   const hours = totalSeconds(p) / 3600;
   const ready = modules.filter((m) => m.status === 'ready').flatMap((m) => m.lessons.map((l) => ({ m, l })));
