@@ -1,0 +1,446 @@
+[
+  {
+    "designer": "Auto Layout",
+    "developer": "display: flex",
+    "explain": "Элементы выстраиваются в ряд или колонку с отступами. Direction = flex-direction.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Gap (spacing between items)",
+    "developer": "gap",
+    "explain": "Расстояние между дочерними элементами во flex и grid.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Padding",
+    "developer": "padding",
+    "explain": "Внутренний отступ. Порядок значений тот же: верх, право, низ, лево.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Fill container",
+    "developer": "flex: 1 / width: 100%",
+    "explain": "Элемент растягивается на всё доступное место родителя.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Hug contents",
+    "developer": "width: fit-content / auto",
+    "explain": "Размер подстраивается под содержимое.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Fixed width",
+    "developer": "width: 320px",
+    "explain": "Жёстко заданный размер.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Layout Grid (колонки)",
+    "developer": "display: grid; grid-template-columns",
+    "explain": "В Figma сетка — направляющие, в CSS — настоящая раскладка, по которой расставляются элементы.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Alignment в Auto Layout",
+    "developer": "justify-content / align-items",
+    "explain": "Выравнивание по главной и поперечной оси.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Absolute position",
+    "developer": "position: absolute",
+    "explain": "Элемент выпадает из потока и позиционируется относительно ближайшего родителя с position: relative.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Constraints",
+    "developer": "position + inset / media queries",
+    "explain": "Поведение при ресайзе. В вебе его описывают правилами раскладки и брейкпоинтами.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Clip content",
+    "developer": "overflow: hidden",
+    "explain": "Обрезать всё, что выходит за границы.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Слой (layer)",
+    "developer": "элемент DOM",
+    "explain": "Каждый тег — узел дерева, как слой в панели Layers.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Фрейм (frame)",
+    "developer": "<div> / <section>",
+    "explain": "Контейнер для других элементов. Лучше использовать семантические теги.",
+    "category": "Раскладка"
+  },
+  {
+    "designer": "Corner radius",
+    "developer": "border-radius",
+    "explain": "Скругление углов. Можно задать каждому углу отдельно.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Stroke",
+    "developer": "border / outline",
+    "explain": "border влияет на размер (inside при border-box), outline рисуется поверх и не занимает места.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Drop shadow",
+    "developer": "box-shadow",
+    "explain": "Тень: x y blur spread цвет. Inner shadow = inset.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Layer opacity",
+    "developer": "opacity",
+    "explain": "Прозрачность всего элемента вместе с детьми.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Fill opacity",
+    "developer": "rgb(… / 0.5)",
+    "explain": "Прозрачность только заливки.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Text style",
+    "developer": "font-* + line-height (токены)",
+    "explain": "Набор свойств текста, в коде — группа токенов или CSS-класс.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Line height 150%",
+    "developer": "line-height: 1.5",
+    "explain": "В CSS лучше множитель без единиц: он масштабируется с размером шрифта.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Letter spacing −2%",
+    "developer": "letter-spacing: -0.02em",
+    "explain": "Проценты Figma соответствуют em.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Blend mode",
+    "developer": "mix-blend-mode",
+    "explain": "Режимы наложения работают и в CSS.",
+    "category": "Стили"
+  },
+  {
+    "designer": "Variables",
+    "developer": "CSS custom properties (--name)",
+    "explain": "Именованные значения. var(--color-accent) — это ссылка на переменную.",
+    "category": "Токены"
+  },
+  {
+    "designer": "Collection",
+    "developer": "группа токенов / файл tokens.css",
+    "explain": "Набор переменных одного типа: Primitives, Semantic.",
+    "category": "Токены"
+  },
+  {
+    "designer": "Mode (Light / Dark)",
+    "developer": "[data-theme] / prefers-color-scheme",
+    "explain": "Режим коллекции — это набор значений семантических токенов, который переключается атрибутом или медиазапросом.",
+    "category": "Токены"
+  },
+  {
+    "designer": "Alias (ссылка на переменную)",
+    "developer": "--a: var(--b)",
+    "explain": "Семантический токен ссылается на примитив.",
+    "category": "Токены"
+  },
+  {
+    "designer": "Color style",
+    "developer": "токен цвета",
+    "explain": "Устаревающий аналог Variables. В коде тоже становится CSS-переменной.",
+    "category": "Токены"
+  },
+  {
+    "designer": "Main component",
+    "developer": "компонент React / класс CSS",
+    "explain": "Одно описание — много экземпляров.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "Instance",
+    "developer": "использование компонента <Button />",
+    "explain": "Экземпляр с переопределёнными свойствами.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "Variant property",
+    "developer": "prop (variant=\"primary\")",
+    "explain": "Свойство варианта превращается в prop компонента.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "Boolean property",
+    "developer": "prop: boolean (disabled)",
+    "explain": "Включить или выключить часть компонента.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "Instance swap / Slot",
+    "developer": "children / render-prop",
+    "explain": "Место, куда можно подставить другой компонент.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "State=Hover / Pressed",
+    "developer": ":hover / :active",
+    "explain": "Интерактивные состояния — это псевдоклассы CSS.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "State=Focus",
+    "developer": ":focus-visible",
+    "explain": "Фокус с клавиатуры. Обязателен для доступности.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "State=Disabled",
+    "developer": ":disabled / disabled",
+    "explain": "Атрибут отключает элемент, псевдокласс стилизует его.",
+    "category": "Компоненты"
+  },
+  {
+    "designer": "Prototype: On click",
+    "developer": "addEventListener(\"click\")",
+    "explain": "Реакция на событие.",
+    "category": "Прототип"
+  },
+  {
+    "designer": "Smart Animate",
+    "developer": "transition",
+    "explain": "Плавный переход между состояниями свойств.",
+    "category": "Прототип"
+  },
+  {
+    "designer": "Easing (Ease out)",
+    "developer": "transition-timing-function / cubic-bezier()",
+    "explain": "Кривая ускорения анимации.",
+    "category": "Прототип"
+  },
+  {
+    "designer": "Overlay",
+    "developer": "modal / <dialog>",
+    "explain": "Окно поверх контента. В HTML есть встроенный элемент dialog.",
+    "category": "Прототип"
+  },
+  {
+    "designer": "Breakpoints (фреймы Desktop/Mobile)",
+    "developer": "@media (min-width: …)",
+    "explain": "Правила, которые включаются при определённой ширине.",
+    "category": "Прототип"
+  },
+  {
+    "designer": "Handoff",
+    "developer": "спецификация / Dev Mode / Code Connect",
+    "explain": "Передача макетов в разработку.",
+    "category": "Процесс"
+  },
+  {
+    "designer": "Версия файла",
+    "developer": "commit (Git)",
+    "explain": "Сохранённый снимок изменений с описанием.",
+    "category": "Процесс"
+  },
+  {
+    "designer": "Ветка (branch) в Figma",
+    "developer": "git branch",
+    "explain": "Параллельная линия работы, которую потом сливают в основную.",
+    "category": "Процесс"
+  },
+  {
+    "designer": "Ревью макета",
+    "developer": "pull request / code review",
+    "explain": "Обсуждение изменений перед слиянием.",
+    "category": "Процесс"
+  },
+  {
+    "designer": "Опубликовать библиотеку",
+    "developer": "release / npm publish",
+    "explain": "Выпуск новой версии дизайн-системы.",
+    "category": "Процесс"
+  },
+  {
+    "designer": "Описание картинки",
+    "developer": "alt",
+    "explain": "Текстовая альтернатива для скринридеров.",
+    "category": "Доступность"
+  },
+  {
+    "designer": "Подпись иконки",
+    "developer": "aria-label",
+    "explain": "Доступное имя для кнопки без текста.",
+    "category": "Доступность"
+  },
+  {
+    "designer": "Подпись поля",
+    "developer": "<label for>",
+    "explain": "Связывает подпись с полем ввода.",
+    "category": "Доступность"
+  },
+  {
+    "designer": "Порядок табуляции",
+    "developer": "tab order / tabindex",
+    "explain": "Порядок, в котором элементы получают фокус с клавиатуры. По умолчанию это порядок в DOM.",
+    "category": "Доступность"
+  },
+  {
+    "designer": "Точка (pt), iOS",
+    "developer": "pt → CSS px",
+    "explain": "Логическая единица iOS. 1pt = 1, 2 или 3 физических пикселя в зависимости от экрана (@1x/@2x/@3x).",
+    "category": "Платформы"
+  },
+  {
+    "designer": "dp (density-independent pixel), Android",
+    "developer": "dp → CSS px",
+    "explain": "Логическая единица Android. 1dp = 1px на экране mdpi (160 dpi).",
+    "category": "Платформы"
+  },
+  {
+    "designer": "sp (scale-independent pixel)",
+    "developer": "sp ≈ rem",
+    "explain": "Единица шрифтов в Android, которая учитывает настройку размера шрифта пользователя.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Safe area",
+    "developer": "env(safe-area-inset-*)",
+    "explain": "Зона экрана, свободная от выреза, Dynamic Island и полосы жестов.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Зона нажатия 44pt / 48dp",
+    "developer": "min-width / min-height",
+    "explain": "Минимальный размер интерактивного элемента: 44×44pt в iOS и 48×48dp в Material.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Tab bar (iOS)",
+    "developer": "TabView (SwiftUI)",
+    "explain": "Нижняя панель разделов приложения в iOS.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Navigation bar (iOS)",
+    "developer": "NavigationStack + .navigationTitle",
+    "explain": "Верхняя панель с заголовком и кнопкой «назад».",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Navigation bar (Material)",
+    "developer": "NavigationBar (Compose)",
+    "explain": "Нижняя навигация Android на 3–5 разделов. Не путать с navigation bar в iOS!",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Navigation rail",
+    "developer": "NavigationRail (Compose)",
+    "explain": "Вертикальная навигация сбоку для планшетов и складных устройств.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Top app bar",
+    "developer": "TopAppBar (Compose)",
+    "explain": "Верхняя панель Material с заголовком и действиями.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Sheet (iOS) / Bottom sheet (M3)",
+    "developer": ".sheet / ModalBottomSheet",
+    "explain": "Панель, которая выезжает снизу. В iOS высоту задают detents (medium, large).",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Alert / Dialog",
+    "developer": "Alert (SwiftUI) / AlertDialog (Compose)",
+    "explain": "Модальное окно с сообщением и действиями.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "FAB",
+    "developer": "FloatingActionButton",
+    "explain": "Плавающая кнопка главного действия в Material. В iOS аналога нет.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Dynamic Type",
+    "developer": ".font(.body) / rem",
+    "explain": "Системная настройка размера текста в iOS. Текстовые стили масштабируются автоматически.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Type scale M3 (Display…Label)",
+    "developer": "MaterialTheme.typography",
+    "explain": "15 ролей текста: Display, Headline, Title, Body, Label × Large/Medium/Small.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Semantic colors (iOS)",
+    "developer": "Color(.label), .systemBackground",
+    "explain": "Цвета-роли, которые сами меняются в тёмной теме и при повышенном контрасте.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Color roles (M3)",
+    "developer": "MaterialTheme.colorScheme.primary",
+    "explain": "primary, on-primary, primary-container, surface… — роли вместо конкретных цветов.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Dynamic color",
+    "developer": "dynamicLightColorScheme()",
+    "explain": "Схема цветов Android, построенная из обоев пользователя.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "SF Symbols",
+    "developer": "Image(systemName:)",
+    "explain": "Системная библиотека иконок Apple, которая согласована со шрифтом SF Pro.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Material Symbols",
+    "developer": "Icon(Icons.…) / вариативный шрифт",
+    "explain": "Иконки Google с осями fill, weight, grade и optical size.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Liquid Glass",
+    "developer": ".glassEffect() (SwiftUI)",
+    "explain": "Полупрозрачный «стеклянный» материал элементов управления в iOS 26+.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "M3 Expressive",
+    "developer": "MaterialExpressiveTheme",
+    "explain": "Обновление Material 3: выразительные формы, motion-физика, новые компоненты.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Haptics",
+    "developer": "UIFeedbackGenerator / HapticFeedback",
+    "explain": "Тактильная обратная связь — вибрация в ответ на действие.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "VoiceOver / TalkBack",
+    "developer": "accessibilityLabel / contentDescription",
+    "explain": "Скринридеры iOS и Android. Подпись элемента — аналог aria-label.",
+    "category": "Платформы"
+  },
+  {
+    "designer": "Predictive back",
+    "developer": "BackHandler / PredictiveBackHandler",
+    "explain": "Жест «назад» в Android с предпросмотром экрана, на который вы вернётесь.",
+    "category": "Платформы"
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "id": "m09-motion",
+  "order": 9,
+  "num": "09",
+  "title": "Анимации и микровзаимодействия",
+  "summary": "transition, keyframes, easing и длительности. Motion-токены и уважение к prefers-reduced-motion.",
+  "skills": [
+    "motion"
+  ],
+  "lessons": [
+    {
+      "id": "l1-transitions",
+      "title": "Transitions",
+      "summary": "Что анимировать, сколько длится, какие свойства «дешёвые» (transform, opacity).",
+      "stub": true,
+      "skills": {
+        "motion": 3
+      }
+    },
+    {
+      "id": "l2-easing",
+      "title": "Easing и кривые",
+      "summary": "cubic-bezier, spring, редактор кривых. Сравнение со Smart Animate.",
+      "stub": true,
+      "skills": {
+        "motion": 3
+      }
+    },
+    {
+      "id": "l3-keyframes",
+      "title": "Keyframes и микровзаимодействия",
+      "summary": "Лоадеры, тосты, лайки. Хореография появления.",
+      "stub": true,
+      "skills": {
+        "motion": 3
+      }
+    },
+    {
+      "id": "l4-reduced",
+      "title": "Motion и доступность",
+      "summary": "prefers-reduced-motion, вестибулярные нарушения, motion-токены.",
+      "stub": true,
+      "skills": {
+        "motion": 2,
+        "tokens": 1
+      }
+    }
+  ],
+  "status": "stub"
+}

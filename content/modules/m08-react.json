@@ -1,0 +1,51 @@
+{
+  "id": "m08-react",
+  "order": 8,
+  "num": "08",
+  "title": "React: компоненты, props, state",
+  "summary": "Компоненты как в Figma: props — свойства варианта, state — интерактивное состояние. Собираем свой первый компонент.",
+  "skills": [
+    "react"
+  ],
+  "lessons": [
+    {
+      "id": "l1-components",
+      "title": "Компоненты и JSX",
+      "summary": "Компонент = главный компонент в Figma. JSX — HTML внутри JavaScript.",
+      "stub": true,
+      "skills": {
+        "react": 3
+      }
+    },
+    {
+      "id": "l2-props",
+      "title": "Props = свойства варианта",
+      "summary": "variant, size, disabled, icon: как свойства компонента Figma превращаются в props.",
+      "stub": true,
+      "skills": {
+        "react": 3,
+        "ds": 1
+      }
+    },
+    {
+      "id": "l3-state",
+      "title": "State и интерактивность",
+      "summary": "useState, события, контролируемые поля ввода.",
+      "stub": true,
+      "skills": {
+        "react": 3,
+        "js": 1
+      }
+    },
+    {
+      "id": "l4-lists",
+      "title": "Списки, условия и композиция",
+      "summary": "map, условный рендер, children как слоты (slot) в Figma.",
+      "stub": true,
+      "skills": {
+        "react": 3
+      }
+    }
+  ],
+  "status": "stub"
+}

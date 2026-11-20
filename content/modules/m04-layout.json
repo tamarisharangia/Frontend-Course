@@ -1,0 +1,50 @@
+{
+  "id": "m04-layout",
+  "order": 4,
+  "num": "04",
+  "title": "Flexbox и Grid",
+  "summary": "Раскладка в CSS: flex — это Auto Layout в одну сторону, grid — сетка в двух измерениях. Сравниваем с Auto Layout и Layout Grid в Figma.",
+  "skills": [
+    "layout"
+  ],
+  "lessons": [
+    {
+      "id": "l1-flex",
+      "title": "Flexbox = Auto Layout",
+      "summary": "direction, gap, justify-content, align-items. Ползунки для gap и выравнивания рядом с панелью Auto Layout.",
+      "stub": true,
+      "skills": {
+        "layout": 3
+      }
+    },
+    {
+      "id": "l2-flex-grow",
+      "title": "Fill, Hug и Fixed во Flexbox",
+      "summary": "flex-grow, flex-shrink, flex-basis и как они соответствуют Fill container и Hug contents.",
+      "stub": true,
+      "skills": {
+        "layout": 3
+      }
+    },
+    {
+      "id": "l3-grid",
+      "title": "CSS Grid: колонки и ряды",
+      "summary": "grid-template-columns, fr, minmax(), auto-fit. Аналог Layout Grid в Figma, только «живой».",
+      "stub": true,
+      "skills": {
+        "layout": 3
+      }
+    },
+    {
+      "id": "l4-grid-areas",
+      "title": "Раскладка экрана с grid-areas",
+      "summary": "Собираем дашборд по именованным областям. Когда flex, а когда grid.",
+      "stub": true,
+      "skills": {
+        "layout": 3,
+        "responsive": 1
+      }
+    }
+  ],
+  "status": "stub"
+}

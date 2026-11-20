@@ -1,0 +1,51 @@
+{
+  "id": "m11-design-systems",
+  "order": 11,
+  "num": "11",
+  "title": "Дизайн-системы в коде",
+  "summary": "Tailwind, Storybook и handoff. Как библиотека Figma и библиотека компонентов в коде живут вместе.",
+  "skills": [
+    "ds"
+  ],
+  "lessons": [
+    {
+      "id": "l1-tailwind",
+      "title": "Tailwind CSS",
+      "summary": "Утилитарные классы, конфиг как токены. Почему его любят разработчики.",
+      "stub": true,
+      "skills": {
+        "ds": 3,
+        "tokens": 1
+      }
+    },
+    {
+      "id": "l2-storybook",
+      "title": "Storybook",
+      "summary": "Витрина компонентов: stories = варианты, controls = свойства.",
+      "stub": true,
+      "skills": {
+        "ds": 3,
+        "tools": 1
+      }
+    },
+    {
+      "id": "l3-handoff",
+      "title": "Handoff и Dev Mode",
+      "summary": "Code Connect, аннотации, спецификации, которые читают.",
+      "stub": true,
+      "skills": {
+        "ds": 3
+      }
+    },
+    {
+      "id": "l4-governance",
+      "title": "Жизнь дизайн-системы",
+      "summary": "Версии, changelog, contribution, метрики использования.",
+      "stub": true,
+      "skills": {
+        "ds": 2
+      }
+    }
+  ],
+  "status": "stub"
+}

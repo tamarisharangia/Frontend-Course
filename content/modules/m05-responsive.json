@@ -1,0 +1,52 @@
+{
+  "id": "m05-responsive",
+  "order": 5,
+  "num": "05",
+  "title": "Адаптивность",
+  "summary": "Один макет — любые экраны. Media и container queries, fluid type с clamp() и стратегия брейкпоинтов.",
+  "skills": [
+    "responsive"
+  ],
+  "lessons": [
+    {
+      "id": "l1-media",
+      "title": "Media queries и брейкпоинты",
+      "summary": "Как выбрать брейкпоинты по контенту, а не по устройствам. Mobile first.",
+      "stub": true,
+      "skills": {
+        "responsive": 3
+      }
+    },
+    {
+      "id": "l2-container",
+      "title": "Container queries",
+      "summary": "Компонент адаптируется под свой контейнер, а не под окно, — как вариант компонента под размер.",
+      "stub": true,
+      "skills": {
+        "responsive": 3,
+        "ds": 1
+      }
+    },
+    {
+      "id": "l3-fluid",
+      "title": "Fluid type и clamp()",
+      "summary": "Плавные размеры шрифтов и отступов без брейкпоинтов. Калькулятор clamp.",
+      "stub": true,
+      "skills": {
+        "responsive": 3,
+        "tokens": 1
+      }
+    },
+    {
+      "id": "l4-images",
+      "title": "Адаптивные изображения",
+      "summary": "srcset, aspect-ratio, object-fit и почему картинка «прыгает» при загрузке.",
+      "stub": true,
+      "skills": {
+        "responsive": 2,
+        "html": 1
+      }
+    }
+  ],
+  "status": "stub"
+}

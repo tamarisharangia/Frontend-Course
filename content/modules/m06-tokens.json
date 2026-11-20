@@ -1,0 +1,51 @@
+{
+  "id": "m06-tokens",
+  "order": 6,
+  "num": "06",
+  "title": "Дизайн-токены и темы",
+  "summary": "CSS custom properties как Figma Variables: примитивы, семантика, режимы. Светлая и тёмная тема на примере этого сайта.",
+  "skills": [
+    "tokens"
+  ],
+  "lessons": [
+    {
+      "id": "l1-vars",
+      "title": "CSS-переменные",
+      "summary": "Объявление, var(), наследование и fallback. Сравнение с Figma Variables.",
+      "stub": true,
+      "skills": {
+        "tokens": 3
+      }
+    },
+    {
+      "id": "l2-layers",
+      "title": "Слои токенов",
+      "summary": "Primitive → semantic → component. Разбираем tokens.css этого сайта.",
+      "stub": true,
+      "skills": {
+        "tokens": 3,
+        "ds": 1
+      }
+    },
+    {
+      "id": "l3-themes",
+      "title": "Тёмная тема и режимы",
+      "summary": "prefers-color-scheme, data-theme, color-scheme. Режимы коллекций Figma в коде.",
+      "stub": true,
+      "skills": {
+        "tokens": 3
+      }
+    },
+    {
+      "id": "l4-pipeline",
+      "title": "Токены из Figma в код",
+      "summary": "Экспорт Variables, формат W3C Design Tokens, Style Dictionary — обзорно.",
+      "stub": true,
+      "skills": {
+        "tokens": 2,
+        "tools": 1
+      }
+    }
+  ],
+  "status": "stub"
+}

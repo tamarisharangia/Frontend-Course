@@ -1,0 +1,59 @@
+{
+  "id": "m13-final",
+  "order": 13,
+  "num": "13",
+  "title": "Финальный проект",
+  "summary": "Берём свой экран из Figma и верстаем его целиком: токены, раскладка, адаптив, состояния и деплой.",
+  "skills": [
+    "layout",
+    "responsive",
+    "tokens",
+    "react",
+    "tools"
+  ],
+  "lessons": [
+    {
+      "id": "l1-plan",
+      "title": "Разбор макета",
+      "summary": "Декомпозиция экрана на компоненты и токены. План работ.",
+      "stub": true,
+      "skills": {
+        "ds": 2,
+        "tools": 1
+      }
+    },
+    {
+      "id": "l2-build",
+      "title": "Вёрстка",
+      "summary": "Раскладка, типографика и компоненты на React.",
+      "stub": true,
+      "skills": {
+        "layout": 3,
+        "react": 3,
+        "tokens": 2
+      }
+    },
+    {
+      "id": "l3-polish",
+      "title": "Адаптив, состояния и motion",
+      "summary": "Доводим до продакшен-качества.",
+      "stub": true,
+      "skills": {
+        "responsive": 3,
+        "motion": 2,
+        "js": 2
+      }
+    },
+    {
+      "id": "l4-ship",
+      "title": "Деплой и презентация",
+      "summary": "Публикуем и оформляем кейс в портфолио дизайн-инженера.",
+      "stub": true,
+      "skills": {
+        "tools": 3,
+        "ds": 1
+      }
+    }
+  ],
+  "status": "stub"
+}

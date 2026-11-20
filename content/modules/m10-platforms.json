@@ -1,0 +1,1671 @@
+{
+  "id": "m10-platforms",
+  "order": 10,
+  "num": "10",
+  "title": "iOS и Material Design",
+  "summary": "Платформенные гайдлайны Apple HIG и Material 3 Expressive: единицы, навигация, компоненты, типографика, цвет, иконки, motion и доступность — и как всё это выглядит в коде.",
+  "status": "ready",
+  "skills": [
+    "platforms"
+  ],
+  "lessons": [
+    {
+      "id": "l1-philosophy",
+      "title": "Философия платформ: Apple против Google",
+      "summary": "Почему iOS и Android по-разному решают одни и те же задачи и что из этого следует для дизайнера.",
+      "duration": "50–70 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 2
+      },
+      "theory": [
+        "### Два разных мира\n\n**Apple** выпускает и железо, и систему, и главные приложения. Поэтому HIG (Human Interface Guidelines) — это скорее **правила дома**: как сделать, чтобы приложение ощущалось «родным» на iPhone, iPad, Mac, Watch, Vision Pro, а с осени 2026 года и на складном **iPhone Duo**.\n\n**Google** делает Android, но телефоны выпускают десятки производителей. **Material Design** задумывался как открытая дизайн-система: набор компонентов, токенов и принципов, который работает на Android, в вебе, во Flutter и в приложениях Google на iOS.",
+        "### Актуальные версии\n\n| | Apple | Google |\n|---|---|---|\n| Название | Human Interface Guidelines | Material Design 3 (M3) |\n| Текущая эпоха | **Liquid Glass** — представлен на WWDC25 с iOS 26, сейчас iOS 27 | **M3 Expressive** — представлен в мае 2025, развит на I/O 2026 |\n| Суть обновления | Полупрозрачный «стеклянный» материал для элементов управления и навигации. Он парит над контентом и подстраивается под то, что под ним | Выразительные формы (35 shape-форм с морфингом), motion на пружинной физике, новые компоненты (toolbars, button groups, split button) |\n| Шрифт | SF Pro | Roboto / Roboto Flex, Google Sans Flex (теперь open source) |\n| Где жить коду | SwiftUI, UIKit | Jetpack Compose («Material Android is Compose-first», 2026), Views, Flutter, Material Web |",
+        "### Разница в подходе\n\n- **Контент против выразительности.** Apple: интерфейс отступает, а главное — контент. Стеклянные панели буквально пропускают его сквозь себя. Google в M3 Expressive делает ставку на **эмоцию и выразительность**: смелые формы, крупная типографика, «живые» пружинные анимации. При этом цель та же — сделать главное заметным.\n- **Единообразие против персонализации.** Apple даёт один узнаваемый облик и системный акцентный цвет. Material строит цветовую схему **из обоев пользователя** (dynamic color): приложение подстраивается под человека.\n- **Жёсткие правила против конструктора.** HIG чаще говорит «так принято в iOS». M3 — это библиотека компонентов с токенами, которую бренды кастомизируют.\n- **Обе системы сходятся** в главном: доступность, понятная иерархия, крупные зоны нажатия и адаптивность к размерам экрана.\n\n> В июне 2026 Apple заново сформулировала раздел **Design principles** в HIG. Прочитайте его целиком: это 10 минут, которые объясняют логику всех остальных правил."
+      ],
+      "figma": "- **Apple Design Resources** — официальные UI-киты iOS 27 / iPadOS 27 для Figma (обновлены в сентябре 2026). Используйте их вместо самодельных компонентов: там правильные размеры, стекло и системные цвета.\n- **Material 3 Design Kit** в Figma Community — с компонентами M3 Expressive и Variables для цветовых ролей. Плагин **Material Theme Builder** генерирует схему из одного цвета.\n- Хорошая практика — **два файла или две страницы**: «iOS» и «Android». Общие сценарии и контент, но разные платформенные компоненты. Не пытайтесь сделать один «универсальный» макет на обе платформы.",
+      "quiz": [
+        {
+          "q": "Угадайте платформу по диалогу:",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{display:grid;place-items:center;height:100vh;background:#8e8e93}.a{width:270px;background:rgba(255,255,255,.94);border-radius:26px;padding:20px 16px 14px;text-align:center}.a b{display:block;margin-bottom:4px}.a p{font-size:13px;margin:0 0 14px}.r{display:flex;gap:8px}.r span{flex:1;height:44px;border-radius:22px;background:rgba(118,118,128,.14);display:grid;place-items:center;color:#007aff}",
+            "html": "<div class=\"a\"><b>Удалить фото?</b><p>Это действие нельзя отменить.</p><div class=\"r\"><span>Отмена</span><span style=\"color:#ff3b30;font-weight:600\">Удалить</span></div></div>",
+            "height": 220
+          },
+          "options": [
+            "iOS",
+            "Android (Material 3)"
+          ],
+          "correct": 0,
+          "explain": "Заголовок по центру, капсульные кнопки одинаковой ширины рядом, деструктивное действие красным — это алерт iOS."
+        },
+        {
+          "q": "А этот?",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{display:grid;place-items:center;height:100vh;background:rgba(0,0,0,.4)}.d{width:300px;background:#ece6f0;border-radius:28px;padding:24px}.d b{display:block;font-size:24px;font-weight:400;margin-bottom:16px}.d p{font-size:14px;color:#49454f;margin:0 0 24px}.r{display:flex;justify-content:flex-end;gap:8px}.r span{color:#6750a4;font-weight:500;font-size:14px;padding:10px 12px}",
+            "html": "<div class=\"d\"><b>Удалить фото?</b><p>Это действие нельзя отменить.</p><div class=\"r\"><span>Отмена</span><span>Удалить</span></div></div>",
+            "height": 240
+          },
+          "options": [
+            "iOS",
+            "Android (Material 3)"
+          ],
+          "correct": 1,
+          "explain": "Заголовок выровнен по левому краю, крупное скругление 28dp, текстовые кнопки справа — это диалог Material 3."
+        },
+        {
+          "q": "Что такое **Liquid Glass**?",
+          "options": [
+            "Новый шрифт Apple",
+            "Полупрозрачный материал элементов управления в iOS 26+",
+            "Тема Material 3",
+            "Анимация загрузки"
+          ],
+          "correct": 1,
+          "explain": "Liquid Glass — дизайн-язык Apple с iOS 26: стеклянные панели и контролы, которые парят над контентом."
+        },
+        {
+          "q": "Что делает **dynamic color** в Material 3?",
+          "options": [
+            "Анимирует цвета",
+            "Строит цветовую схему приложения из обоев пользователя",
+            "Включает тёмную тему по расписанию",
+            "Меняет цвет иконок"
+          ],
+          "correct": 1,
+          "explain": "Начиная с Android 12 система извлекает исходный цвет из обоев и генерирует из него роли primary, secondary, surface и т.д."
+        }
+      ],
+      "practice": "- В начале проекта спросите команду: **«Мы делаем нативное приложение под каждую платформу или кроссплатформенное (Flutter, React Native)?»** От ответа зависит, сколько платформенных отличий реально реализуют.\n- Если бренд требует единого облика, договоритесь, **что остаётся нативным** (навигация, жесты, системные диалоги, шрифты), а **что брендовое** (цвета, иллюстрации, контент-карточки). Это лучший компромисс.\n- Ссылки на HIG и m3.material.io в комментариях к макету — сильный аргумент в споре «а почему так».",
+      "sources": [
+        {
+          "label": "Apple HIG — главная",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/"
+        },
+        {
+          "label": "Apple Design — What’s new",
+          "url": "https://developer.apple.com/design/whats-new/"
+        },
+        {
+          "label": "Material Design 3",
+          "url": "https://m3.material.io/"
+        },
+        {
+          "label": "Material Design — блог",
+          "url": "https://m3.material.io/blog"
+        }
+      ]
+    },
+    {
+      "id": "l2-units",
+      "title": "Единицы и размеры: pt, dp, px и safe areas",
+      "summary": "Плотность экранов, логические единицы, безопасные зоны и минимальные зоны нажатия 44pt и 48dp.",
+      "duration": "60–80 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "responsive": 1
+      },
+      "theory": [
+        "### Логические единицы\n\nЭкраны отличаются **плотностью**: сколько физических пикселей помещается в дюйм. Чтобы кнопка была одного физического размера везде, платформы считают в логических единицах:\n\n| Платформа | Единица | Как переводится в физические пиксели |\n|---|---|---|\n| iOS | **pt** (point) | @1x — 1, **@2x — 2**, **@3x — 3** пикселя на pt |\n| Android | **dp** (density-independent pixel) | mdpi ×1, hdpi ×1.5, xhdpi ×2, xxhdpi ×3, xxxhdpi ×4 |\n| Android, текст | **sp** (scale-independent pixel) | как dp, но масштабируется настройкой шрифта |\n| Веб | **CSS px** | умножается на `devicePixelRatio` |\n\n**Главное:** 1pt ≈ 1dp ≈ 1 CSS px. Макет в Figma на 390×844 (iPhone) или 412×915 (типичный Android) рисуется в этих логических единицах.",
+        "### Минимальные зоны нажатия\n\n- **iOS: 44 × 44 pt** — минимум для любого интерактивного элемента.\n- **Material: 48 × 48 dp** — минимальная область касания. Иконка может быть 24dp, но вокруг неё должна быть невидимая зона до 48dp.\n- **Веб (WCAG 2.2):** минимум 24×24 CSS px (уровень AA), рекомендуется 44×44 (AAA).\n\n**Визуальный размер ≠ зона нажатия.** Иконка 24px может сидеть в кнопке 44px с прозрачным padding. Так и делают.",
+        "### Safe areas: безопасные зоны\n\nЭкран — не прямоугольник: есть вырез или **Dynamic Island**, скруглённые углы, **индикатор Home** внизу, а на Android — полоса жестов и вырезы камеры.\n\n- **iOS:** система сообщает отступы **safe area insets** для каждой модели. Значения разные, поэтому их **не хардкодят**. Фоны и картинки можно растягивать под край, а текст и кнопки должны быть внутри safe area.\n- **Android:** начиная с Android 15 приложения по умолчанию рисуются **edge-to-edge**, от края до края, под системными панелями. Отступы берут из **window insets**.\n- **Веб:** `env(safe-area-inset-bottom)` плюс `<meta name=\"viewport\" content=\"…, viewport-fit=cover\">`.\n\n~~~css\n.bottom-bar {\n  padding-bottom: calc(8px + env(safe-area-inset-bottom));\n}\n~~~"
+      ],
+      "figma": "- Рисуйте в **@1x** (логических единицах). При экспорте растровых картинок отдавайте @2x и @3x для iOS, а для Android — набор плотностей до xxxhdpi. Лучше всего — векторы (SVG, PDF).\n- В UI-ките Apple есть **слой Safe Area** — включайте его в фреймах. В M3 Kit используйте системные панели (status bar, navigation bar), чтобы видеть edge-to-edge.\n- Для мелких иконок сделайте компонент **«Hit area 44 / 48»** — прозрачный фрейм вокруг иконки. Разработчик увидит реальный размер кнопки в Dev Mode.",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Зона нажатия и плотность экрана",
+          "description": "Пунктир — минимальная зона нажатия выбранной платформы, круг — примерный отпечаток пальца (~10 мм). Кнопка меньше пунктира — ошибка.",
+          "height": 300,
+          "html": "<div class=\"stage\"><div class=\"target\"><button class=\"btn\">♡</button></div><div class=\"finger\"></div></div><p class=\"info\" id=\"i\"></p><script>function u(){var cs=getComputedStyle(document.documentElement);var s=parseFloat(cs.getPropertyValue(\"--size\"))||0;var min=parseFloat(cs.getPropertyValue(\"--min\"))||44;var d=parseFloat(cs.getPropertyValue(\"--dpr\"))||3;document.getElementById(\"i\").innerHTML=\"Кнопка \"+s+\" × \"+s+\" логических единиц = <b>\"+(s*d)+\" × \"+(s*d)+\"</b> физических пикселей при @\"+d+\"x. \"+(s>=min?\"<span style=color:#2b8a3e>✓ Не меньше минимума \"+min+\"</span>\":\"<span style=color:#c63a2d>✗ Меньше минимума \"+min+\"</span>\")}new MutationObserver(u).observe(document.documentElement,{attributes:true});u()</script>",
+          "css": "body{font-family:system-ui;padding:16px}.stage{position:relative;height:180px;display:grid;place-items:center;background:#f4f4f0;border-radius:12px}.info{font-size:14px}\n.target{width:calc(var(--min) * 1px);height:calc(var(--min) * 1px);outline:2px dashed #e8590c;display:grid;place-items:center}\n.btn{width:calc(var(--size) * 1px);height:calc(var(--size) * 1px);border:0;border-radius:50%;background:#3b5bdb;color:#fff;font-size:calc(var(--size) * .45px)}\n.finger{position:absolute;width:57px;height:57px;border-radius:50%;background:rgba(232,89,12,.15);left:calc(50% + 30px);top:calc(50% + 10px)}",
+          "code": ".icon-button {\n  width: var(--size)px;\n  height: var(--size)px;\n}\n/* минимум платформы: var(--min) */",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--size",
+              "label": "Размер кнопки (pt / dp)",
+              "min": 16,
+              "max": 64,
+              "value": 32
+            },
+            {
+              "type": "select",
+              "var": "--min",
+              "label": "Платформа",
+              "value": "44",
+              "options": [
+                {
+                  "label": "iOS — 44pt",
+                  "value": "44"
+                },
+                {
+                  "label": "Android — 48dp",
+                  "value": "48"
+                },
+                {
+                  "label": "Веб WCAG AA — 24px",
+                  "value": "24"
+                }
+              ]
+            },
+            {
+              "type": "select",
+              "var": "--dpr",
+              "label": "Плотность экрана",
+              "value": "3",
+              "options": [
+                {
+                  "label": "@1x (mdpi)",
+                  "value": "1"
+                },
+                {
+                  "label": "@2x (xhdpi)",
+                  "value": "2"
+                },
+                {
+                  "label": "@3x (xxhdpi)",
+                  "value": "3"
+                },
+                {
+                  "label": "@4x (xxxhdpi)",
+                  "value": "4"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "tap-targets",
+        "title": "Почините зоны нажатия",
+        "brief": "В нижней панели редактора кнопки-иконки размером 24×24 — в них трудно попасть пальцем. Не увеличивая сами иконки (`font-size` оставьте 24px):\n\n1. Сделайте кнопки `.ios .icon-btn` размером **не меньше 44×44**.\n2. Сделайте кнопки `.md .icon-btn` размером **не меньше 48×48**.\n3. Добавьте нижней панели `.bottom-bar` отступ снизу с учётом safe area: `env(safe-area-inset-bottom)`.\n\nПодсказка: размер кнопки задаётся через `width` и `height` (или `min-width` и `min-height`), а иконку удобно центрировать с помощью `display: grid; place-items: center`.",
+        "files": {
+          "html": "<div class=\"phone ios\">\n  <p class=\"cap\">iOS</p>\n  <div class=\"bottom-bar\">\n    <button class=\"icon-btn\" aria-label=\"Жирный\">B</button>\n    <button class=\"icon-btn\" aria-label=\"Курсив\">I</button>\n    <button class=\"icon-btn\" aria-label=\"Список\">≡</button>\n    <button class=\"icon-btn\" aria-label=\"Фото\">▣</button>\n  </div>\n</div>\n\n<div class=\"phone md\">\n  <p class=\"cap\">Android</p>\n  <div class=\"bottom-bar\">\n    <button class=\"icon-btn\" aria-label=\"Жирный\">B</button>\n    <button class=\"icon-btn\" aria-label=\"Курсив\">I</button>\n    <button class=\"icon-btn\" aria-label=\"Список\">≡</button>\n    <button class=\"icon-btn\" aria-label=\"Фото\">▣</button>\n  </div>\n</div>",
+          "css": "body { font-family: system-ui; display: flex; gap: 16px; padding: 16px; background: #eee; }\n.phone { width: 220px; height: 200px; background: white; border-radius: 24px; position: relative; overflow: hidden; }\n.cap { margin: 16px; color: #888; font-size: 13px; }\n.bottom-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-around; border-top: 1px solid #ddd; padding-top: 4px; }\n.icon-btn { width: 24px; height: 24px; padding: 0; border: 0; background: none; font-size: 24px; line-height: 1; }\n.ios .icon-btn { color: #007aff; }\n.md .icon-btn { color: #49454f; }\n\n/* Ваш код ниже */\n"
+        },
+        "checks": [
+          {
+            "type": "style",
+            "selector": ".ios .icon-btn",
+            "prop": "width",
+            "min": 44,
+            "all": true,
+            "label": "iOS: ширина кнопок от 44",
+            "hint": "Задайте .ios .icon-btn ширину не меньше 44px. Правило ниже в файле перебьёт общее."
+          },
+          {
+            "type": "style",
+            "selector": ".ios .icon-btn",
+            "prop": "height",
+            "min": 44,
+            "all": true,
+            "label": "iOS: высота кнопок от 44",
+            "hint": "Высота тоже нужна, зона нажатия квадратная."
+          },
+          {
+            "type": "style",
+            "selector": ".md .icon-btn",
+            "prop": "width",
+            "min": 48,
+            "all": true,
+            "label": "Android: ширина кнопок от 48",
+            "hint": "В Material минимальная зона касания — 48dp."
+          },
+          {
+            "type": "style",
+            "selector": ".md .icon-btn",
+            "prop": "height",
+            "min": 48,
+            "all": true,
+            "label": "Android: высота кнопок от 48",
+            "hint": "И по высоте 48."
+          },
+          {
+            "type": "style",
+            "selector": ".icon-btn",
+            "prop": "font-size",
+            "equals": "24px",
+            "all": true,
+            "label": "Иконки остались 24px",
+            "hint": "Мы увеличиваем зону нажатия, а не иконку. Верните font-size 24px."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.bottom-bar[^{]*\\{[^}]*padding(-bottom)?\\s*:[^;}]*env\\(\\s*safe-area-inset-bottom",
+            "label": "Панель учитывает safe area снизу",
+            "hint": "В правиле для .bottom-bar задайте padding-bottom через env(safe-area-inset-bottom). Можно с calc(), чтобы добавить базовый отступ."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Иконка 24pt на iPhone с экраном @3x. Сколько это физических пикселей?",
+          "options": [
+            "24",
+            "48",
+            "72",
+            "96"
+          ],
+          "correct": 2,
+          "explain": "24 × 3 = 72 пикселя. Поэтому растровые иконки экспортируют в @2x и @3x."
+        },
+        {
+          "q": "Найдите нарушение гайдлайна на макете:",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{background:#fff;padding:60px 16px}.bar{display:flex;align-items:center;gap:4px;border-bottom:.5px solid #ccc;padding-bottom:8px}.bar b{flex:1;font-size:17px}.i{width:20px;height:20px;font-size:14px;display:grid;place-items:center;color:#007aff;outline:1px dashed #ff3b30}",
+            "html": "<div class=\"bar\"><b>Документ</b><span class=\"i\">↶</span><span class=\"i\">↷</span><span class=\"i\">⤴</span><span class=\"i\">⋯</span></div><p style=\"font-size:13px;color:#8e8e93\">Красным пунктиром показан реальный размер кнопок: 20×20pt.</p>",
+            "height": 200
+          },
+          "options": [
+            "Слишком много кнопок",
+            "Кнопки 20×20pt — меньше минимальной зоны нажатия 44×44pt",
+            "Неправильный шрифт",
+            "Нарушений нет"
+          ],
+          "correct": 1,
+          "explain": "Иконки могут быть маленькими, но зона нажатия вокруг них — не меньше 44pt в iOS."
+        },
+        {
+          "q": "Чем **sp** отличается от **dp**?",
+          "options": [
+            "Ничем",
+            "sp масштабируется, если пользователь увеличил шрифт в настройках",
+            "sp только для иконок",
+            "sp — это пиксели экрана"
+          ],
+          "correct": 1,
+          "explain": "sp используется для текста и учитывает настройку размера шрифта. Это аналог rem в вебе."
+        },
+        {
+          "q": "Почему отступ safe area нельзя «зашить» в макет одной цифрой?",
+          "options": [
+            "Можно, он везде 34pt",
+            "Он отличается у разных моделей и ориентаций, система сообщает его во время работы",
+            "Его нет на новых телефонах",
+            "Он нужен только на Android"
+          ],
+          "correct": 1,
+          "explain": "У iPhone с Dynamic Island, у iPhone SE, у складного iPhone Duo и у Android-устройств разные вставки. Код берёт их у системы."
+        }
+      ],
+      "practice": "- Указывайте в спецификации **и визуальный размер, и зону нажатия**: «иконка 24, кнопка 44×44».\n- На ревью вёрстки проверяйте экраны на устройстве с вырезом и **в горизонтальной ориентации**: safe area слева и справа — частый пропуск.\n- Фраза для разработчиков: «фон под статус-бар, контент — в safe area, а нижнюю панель — с учётом inset». Её поймут и iOS-, и Android-, и веб-разработчики.",
+      "sources": [
+        {
+          "label": "Apple HIG — Layout",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/layout"
+        },
+        {
+          "label": "Apple HIG — Accessibility",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/accessibility"
+        },
+        {
+          "label": "Material 3 — Accessibility: structure",
+          "url": "https://m3.material.io/foundations/designing/structure"
+        },
+        {
+          "label": "Material 3 — Layout",
+          "url": "https://m3.material.io/foundations/layout/understanding-layout/overview"
+        }
+      ]
+    },
+    {
+      "id": "l3-navigation",
+      "title": "Навигация: tab bar, navigation bar, rail и sheets",
+      "summary": "Как пользователь перемещается по приложению на каждой платформе: панели разделов, «назад», модальные окна.",
+      "duration": "80–100 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "layout": 1
+      },
+      "theory": [
+        "### Разделы приложения\n\n| | iOS | Android (M3) |\n|---|---|---|\n| Телефон | **Tab bar** внизу, до 5 вкладок. В iOS 26+ это парящая стеклянная капсула, которая может сжиматься при прокрутке. Поиск может быть отдельной вкладкой | **Navigation bar** внизу, 3–5 разделов. Активный раздел подсвечен **индикатором-«таблеткой»** за иконкой |\n| Планшет и большой экран | Tab bar сверху или **sidebar** (адаптивный tab bar превращается в боковую панель) | **Navigation rail** — вертикальная панель сбоку; развёрнутый (expanded) rail с подписями заменяет drawer |\n| Складные | iPhone Duo: tab bar и toolbars могут уходить на вертикальную ось | Окна классов compact / medium / expanded: bar → rail |\n\n**Осторожно с терминами:** «navigation bar» в iOS — это **верхняя** панель с заголовком, а в Material — **нижняя** панель разделов!\n\nВ M3 Expressive **navigation drawer** («гамбургер»-меню) больше не рекомендуется — вместо него используют expanded navigation rail. А в iOS «гамбургер» никогда не был нативным паттерном.",
+        "### Иерархия и «назад»\n\n- **iOS:** экраны складываются **в стопку** внутри navigation stack. Сверху — панель с заголовком (Large Title, который при прокрутке сжимается) и кнопкой «‹ Назад» слева. Назад — **свайпом от левого края**. Системной кнопки «назад» нет: кнопка в интерфейсе обязательна.\n- **Android:** **системный жест «назад»** — свайп от левого или правого края. Он работает везде. С Android 14–16 это **predictive back**: при начале жеста видно, куда вы вернётесь. Стрелка ← в top app bar — дополнительная навигация вверх по иерархии.\n\n### Модальные окна\n\n| Задача | iOS | Android (M3) |\n|---|---|---|\n| Короткая отдельная задача | **Sheet** снизу с высотами (detents) medium и large и «ручкой» (grabber) | **Bottom sheet** (модальный или стандартный) |\n| Важное решение | **Alert** по центру, 1–3 кнопки | **Dialog** с заголовком слева и кнопками справа |\n| Большая задача | Full-screen cover | Full-screen dialog |\n| Выбор действия | Action sheet, menu | Menu, bottom sheet |\n| Большой экран | Popover, sheet в форме карточки | Side sheet |"
+      ],
+      "figma": "- В UI-ките Apple есть компоненты **Tab Bar** и **Sheet** с detents — используйте их, а не рисуйте «просто прямоугольник внизу».\n- В M3 Kit есть **Navigation bar**, **Navigation rail** и **Bottom sheet** с правильными токенами.\n- Прототипируйте **жесты**: свайп назад в iOS (Smart Animate: экран уезжает вправо) и predictive back в Android (экран уменьшается). Так стейкхолдеры понимают, почему не нужна кнопка «назад» в Android.\n- Делайте **адаптивные варианты**: Phone (bar) → Tablet (rail / sidebar).",
+      "widgets": [
+        {
+          "type": "comparator",
+          "title": "Сравнитель «iOS ↔ Android»: экран «Подписки»",
+          "description": "Один и тот же экран в двух платформенных версиях. Выберите отличие справа — оно подсветится на обоих макетах.",
+          "ios": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{height:100vh;overflow:hidden;position:relative}\n.sb{height:50px}\n.nav{display:flex;justify-content:space-between;align-items:center;padding:0 16px;height:44px}\n.glassbtn{height:36px;min-width:36px;padding:0 12px;border-radius:18px;background:rgba(255,255,255,.8);box-shadow:0 2px 10px rgba(0,0,0,.08),inset 0 0 0 .5px rgba(0,0,0,.06);display:flex;align-items:center;gap:4px;color:#007aff;font-size:17px}\n.lt{font-size:34px;line-height:41px;font-weight:700;padding:2px 16px 8px}\n.search{margin:0 16px 18px;background:rgba(118,118,128,.12);border-radius:10px;height:36px;display:flex;align-items:center;padding:0 8px;color:#8e8e93;gap:6px}\n.hdr{font-size:13px;color:#6d6d72;text-transform:uppercase;margin:0 32px 6px}\n.group{margin:0 16px 22px;background:#fff;border-radius:12px;overflow:hidden}\n.row{display:flex;align-items:center;min-height:44px;padding-left:16px;gap:12px}\n.ic{width:29px;height:29px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:14px;flex-shrink:0}\n.rb{flex:1;display:flex;align-items:center;padding:11px 16px 11px 0;border-bottom:.5px solid #c6c6c8;min-width:0}\n.row:last-child .rb{border-bottom:0}\n.rb span:first-child{flex:1}\n.det{color:#8e8e93}.chev{color:#c4c4c7;margin-left:8px;font-size:15px}\n.tabs{position:absolute;left:20px;right:20px;bottom:24px;height:62px;border-radius:31px;background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(18px) saturate(1.8);backdrop-filter:blur(18px) saturate(1.8);box-shadow:0 8px 28px rgba(0,0,0,.14),inset 0 0 0 .5px rgba(255,255,255,.9);display:flex;align-items:center;padding:0 5px}\n.tab{flex:1;display:flex;flex-direction:column;align-items:center;font-size:10px;font-weight:500;color:#333;gap:1px;padding:7px 0;border-radius:26px}\n.tab b{font-size:19px;font-weight:400;line-height:1.2}\n.tab.on{color:#007aff;background:rgba(0,0,0,.06)}\n.home{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#000}",
+            "html": "<div class=\"sb\"></div>\n<div class=\"nav\"><span class=\"glassbtn\" data-diff=\"back\">‹ Настройки</span><span class=\"glassbtn\" data-diff=\"action\">＋</span></div>\n<div class=\"lt\" data-diff=\"title font\">Подписки</div>\n<div class=\"search\" data-diff=\"search\">⌕ Поиск</div>\n<div class=\"hdr\">Активные</div>\n<div class=\"group\" data-diff=\"list\">\n<div class=\"row\"><span class=\"ic\" style=\"background:#ff2d55\">♪</span><div class=\"rb\"><span>Музыка</span><span class=\"det\">299 ₽</span><span class=\"chev\">›</span></div></div>\n<div class=\"row\"><span class=\"ic\" style=\"background:#007aff\">☁</span><div class=\"rb\"><span>Облако 200 ГБ</span><span class=\"det\">149 ₽</span><span class=\"chev\">›</span></div></div>\n<div class=\"row\"><span class=\"ic\" style=\"background:#34c759\">▶</span><div class=\"rb\"><span>Кино</span><span class=\"det\">399 ₽</span><span class=\"chev\">›</span></div></div>\n</div>\n<div class=\"tabs\" data-diff=\"tabs\">\n<div class=\"tab\"><b>⌂</b>Главная</div><div class=\"tab on\"><b>▤</b>Подписки</div><div class=\"tab\"><b>◔</b>Траты</div><div class=\"tab\"><b>⌕</b>Поиск</div>\n</div><div class=\"home\"></div>"
+          },
+          "android": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{height:100vh;overflow:hidden;position:relative}\n.sb{height:36px}\n.bar{display:flex;align-items:center;height:64px;padding:0 4px;gap:4px}\n.ib{width:48px;height:48px;display:grid;place-items:center;font-size:22px;border-radius:50%;color:#1d1b20}\n.ttl{font-size:22px;line-height:28px;flex:1;padding-left:4px}\n.search{margin:4px 16px 8px;height:56px;border-radius:28px;background:#ece6f0;display:flex;align-items:center;padding:0 16px;gap:12px;color:#49454f}\n.sub{font-size:14px;color:#6750a4;font-weight:500;padding:16px 16px 4px}\n.item{display:flex;align-items:center;gap:16px;min-height:72px;padding:8px 24px 8px 16px}\n.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#e8def8;color:#4a4458;font-size:17px;flex-shrink:0}\n.tx{flex:1}.h{font-size:16px;line-height:24px}.s{font-size:14px;line-height:20px;color:#49454f}\n.fab{position:absolute;right:16px;bottom:84px;width:56px;height:56px;border-radius:16px;background:#eaddff;color:#21005d;display:grid;place-items:center;font-size:26px;box-shadow:0 3px 6px rgba(0,0,0,.18)}\n.nb{position:absolute;left:0;right:0;bottom:0;height:72px;background:#f3edf7;display:flex;align-items:flex-start;padding-top:6px}\n.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500;color:#49454f}\n.pill{width:56px;height:32px;border-radius:16px;display:grid;place-items:center;font-size:19px}\n.ni.on .pill{background:#e8def8;color:#4a4458}.ni.on{color:#1d1b20}",
+            "html": "<div class=\"sb\"></div>\n<div class=\"bar\"><span class=\"ib\" data-diff=\"back\">←</span><span class=\"ttl\" data-diff=\"title font\">Подписки</span><span class=\"ib\">⋮</span></div>\n<div class=\"search\" data-diff=\"search\">☰ <span>Поиск подписок</span></div>\n<div class=\"sub\">Активные</div>\n<div data-diff=\"list\">\n<div class=\"item\"><span class=\"av\">♪</span><div class=\"tx\"><div class=\"h\">Музыка</div><div class=\"s\">Списание 12 декабря</div></div><span class=\"s\">299 ₽</span></div>\n<div class=\"item\"><span class=\"av\">☁</span><div class=\"tx\"><div class=\"h\">Облако 200 ГБ</div><div class=\"s\">Списание 3 декабря</div></div><span class=\"s\">149 ₽</span></div>\n<div class=\"item\"><span class=\"av\">▶</span><div class=\"tx\"><div class=\"h\">Кино</div><div class=\"s\">Пробный период</div></div><span class=\"s\">399 ₽</span></div>\n</div>\n<div class=\"fab\" data-diff=\"action\">＋</div>\n<div class=\"nb\" data-diff=\"tabs\">\n<div class=\"ni\"><span class=\"pill\">⌂</span>Главная</div><div class=\"ni on\"><span class=\"pill\">▤</span>Подписки</div><div class=\"ni\"><span class=\"pill\">◔</span>Траты</div><div class=\"ni\"><span class=\"pill\">⚙</span>Настройки</div>\n</div>"
+          },
+          "diffs": [
+            {
+              "id": "tabs",
+              "label": "Навигация по разделам",
+              "ios": "Tab bar — парящая стеклянная капсула (Liquid Glass) над контентом. Активная вкладка окрашена в акцентный цвет.",
+              "android": "Navigation bar во всю ширину. Активный раздел — индикатор-«таблетка» за иконкой."
+            },
+            {
+              "id": "back",
+              "label": "Кнопка «назад»",
+              "ios": "Слева «‹ Настройки» с названием предыдущего экрана, в стеклянной капсуле. Плюс свайп от левого края.",
+              "android": "Стрелка ← в top app bar. Основной способ — системный жест «назад» с любого края."
+            },
+            {
+              "id": "title",
+              "label": "Заголовок экрана",
+              "ios": "Large Title 34pt Bold под панелью, выровнен влево, при прокрутке сжимается в маленький заголовок по центру.",
+              "android": "Заголовок 22sp (Title Large) в top app bar. Есть варианты medium и large flexible с крупным заголовком."
+            },
+            {
+              "id": "action",
+              "label": "Главное действие",
+              "ios": "Кнопка «＋» в навигационной панели справа. FAB в iOS не используется.",
+              "android": "FAB — плавающая кнопка над navigation bar, справа внизу, в зоне большого пальца."
+            },
+            {
+              "id": "search",
+              "label": "Поиск",
+              "ios": "Поле поиска под заголовком. В iOS 26+ поиск можно вынести в отдельную вкладку tab bar.",
+              "android": "Search bar в форме капсулы высотой 56dp, по нажатию раскрывается в search view."
+            },
+            {
+              "id": "list",
+              "label": "Список",
+              "ios": "Inset grouped: белая скруглённая группа на сером фоне, тонкие разделители с отступом, шеврон › у строк, ведущих дальше.",
+              "android": "Строки во всю ширину без разделителей, аватар или иконка слева, вторая строка текста. Шевроны не приняты."
+            },
+            {
+              "id": "font",
+              "label": "Шрифт",
+              "ios": "SF Pro — системный шрифт Apple.",
+              "android": "Roboto (или шрифт бренда). В приложениях Google — Google Sans Flex."
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "two-tabbars",
+        "title": "Один tab bar в двух платформенных стилях",
+        "brief": "В HTML два телефона с одинаковой разметкой нижней навигации. Оформите их по гайдлайнам:\n\n**iOS** (`.tabbar.ios`): парящая капсула Liquid Glass:\n- `display: flex`, скругление **от 20px** (капсула);\n- полупрозрачный фон и `backdrop-filter` с `blur(...)`;\n- каждая вкладка (`.tabbar.ios a`) **высотой от 44px**.\n\n**Android** (`.tabbar.md`): navigation bar M3:\n- `display: flex`;\n- каждый пункт (`.tabbar.md a`) **высотой от 48px**;\n- у активного пункта иконка `.active .icon` лежит на **индикаторе-«таблетке»**: непрозрачный фон и скругление **от 16px** (обычно 64×32 → радиус 16).",
+        "files": {
+          "html": "<div class=\"phone\">\n  <div class=\"content\">iOS 27</div>\n  <nav class=\"tabbar ios\">\n    <a href=\"#\" class=\"active\"><span class=\"icon\">⌂</span><span class=\"label\">Главная</span></a>\n    <a href=\"#\"><span class=\"icon\">⌕</span><span class=\"label\">Поиск</span></a>\n    <a href=\"#\"><span class=\"icon\">♡</span><span class=\"label\">Избранное</span></a>\n    <a href=\"#\"><span class=\"icon\">☺</span><span class=\"label\">Профиль</span></a>\n  </nav>\n</div>\n\n<div class=\"phone\">\n  <div class=\"content\">Android · M3</div>\n  <nav class=\"tabbar md\">\n    <a href=\"#\" class=\"active\"><span class=\"icon\">⌂</span><span class=\"label\">Главная</span></a>\n    <a href=\"#\"><span class=\"icon\">⌕</span><span class=\"label\">Поиск</span></a>\n    <a href=\"#\"><span class=\"icon\">♡</span><span class=\"label\">Избранное</span></a>\n    <a href=\"#\"><span class=\"icon\">☺</span><span class=\"label\">Профиль</span></a>\n  </nav>\n</div>",
+          "css": "body { margin: 0; padding: 16px; display: flex; gap: 16px; background: #ddd; font-family: system-ui; }\n.phone { position: relative; width: 260px; height: 420px; border-radius: 32px; overflow: hidden;\n  background: linear-gradient(160deg, #ffd6a5, #a0c4ff 60%, #cdb4db); }\n.content { padding: 56px 20px; font-size: 28px; font-weight: 700; }\n.tabbar { position: absolute; left: 0; right: 0; bottom: 0; }\n.tabbar a { text-decoration: none; color: inherit; flex: 1;\n  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }\n.icon { font-size: 20px; line-height: 1; }\n.label { font-size: 11px; }\n\n/* ---------- iOS ---------- */\n.tabbar.ios {\n\n}\n\n/* ---------- Android ---------- */\n.tabbar.md {\n\n}\n"
+        },
+        "checks": [
+          {
+            "type": "style",
+            "selector": ".tabbar.ios",
+            "prop": "display",
+            "equals": "flex",
+            "label": "iOS: вкладки в ряд (flex)",
+            "hint": "Чтобы вкладки встали в ряд, панели нужен display: flex."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.ios",
+            "prop": "border-top-left-radius",
+            "min": 20,
+            "label": "iOS: форма капсулы (радиус от 20px)",
+            "hint": "Liquid Glass tab bar — капсула. Большой border-radius и боковые отступы (left/right/bottom), чтобы панель парила."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.tabbar\\.ios[^{]*\\{[^}]*backdrop-filter\\s*:[^;}]*blur\\(",
+            "label": "iOS: эффект стекла через backdrop-filter: blur()",
+            "hint": "Размытие того, что под элементом, — backdrop-filter: blur(16px). Для Safari добавьте -webkit-backdrop-filter."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.ios",
+            "prop": "background-color",
+            "pattern": "rgba\\(.*,\\s*0?\\.\\d+\\)$",
+            "label": "iOS: фон полупрозрачный",
+            "hint": "Стекло пропускает контент: задайте фон с прозрачностью, например rgb(255 255 255 / 0.6)."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.ios a",
+            "prop": "height",
+            "min": 44,
+            "all": true,
+            "label": "iOS: вкладки высотой от 44px",
+            "hint": "Минимальная зона нажатия в iOS — 44pt. Задайте высоту панели или вкладок."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.md",
+            "prop": "display",
+            "equals": "flex",
+            "label": "Android: пункты в ряд (flex)",
+            "hint": "Navigation bar — это тоже ряд пунктов."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.md a",
+            "prop": "height",
+            "min": 48,
+            "all": true,
+            "label": "Android: пункты высотой от 48px",
+            "hint": "Минимальная зона касания в Material — 48dp. Высота самой панели обычно 64–80dp."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.md .active .icon",
+            "prop": "background-color",
+            "notEquals": "rgba(0, 0, 0, 0)",
+            "label": "Android: у активной иконки есть фон-индикатор",
+            "hint": "Задайте фон для .tabbar.md .active .icon — это индикатор активного раздела (в M3 — secondary-container)."
+          },
+          {
+            "type": "style",
+            "selector": ".tabbar.md .active .icon",
+            "prop": "border-top-left-radius",
+            "min": 16,
+            "label": "Android: индикатор-«таблетка» (радиус от 16px)",
+            "hint": "Индикатору нужны размеры (например, width 56–64px и height 32px), display: grid для центрирования и радиус 16px."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "В iOS «navigation bar» — это…",
+          "options": [
+            "Нижняя панель разделов",
+            "Верхняя панель с заголовком и кнопкой «назад»",
+            "Боковое меню",
+            "Полоса жестов"
+          ],
+          "correct": 1,
+          "explain": "В iOS нижняя панель — tab bar, а navigation bar — верхняя. В Material наоборот: navigation bar — нижняя."
+        },
+        {
+          "q": "Найдите нарушение гайдлайна:",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{height:100vh;position:relative;background:#fff}.c{padding:60px 16px;font-size:34px;font-weight:700}.t{position:absolute;left:12px;right:12px;bottom:20px;height:58px;border-radius:29px;background:rgba(242,242,247,.9);box-shadow:0 6px 20px rgba(0,0,0,.12);display:flex;align-items:center}.t span{flex:1;text-align:center;font-size:9px;color:#333}.t span b{display:block;font-size:16px;font-weight:400}.t .on{color:#007aff}",
+            "html": "<div class=\"c\">Главная</div><div class=\"t\"><span class=\"on\"><b>⌂</b>Главная</span><span><b>⌕</b>Поиск</span><span><b>♡</b>Любимое</span><span><b>✉</b>Почта</span><span><b>◔</b>Отчёты</span><span><b>⚙</b>Ещё</span></div>",
+            "height": 220
+          },
+          "options": [
+            "Заголовок слишком крупный",
+            "В tab bar 6 вкладок, подписи стали мельче 10pt и тесными",
+            "Активная вкладка синяя",
+            "Tab bar не может быть капсулой"
+          ],
+          "correct": 1,
+          "explain": "На iPhone в tab bar помещается до 5 вкладок. Остальное уходит во вкладку «Ещё» или в другую структуру."
+        },
+        {
+          "q": "Найдите нарушение гайдлайна (Android-приложение):",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{background:#fef7ff}.bar{display:flex;align-items:center;height:64px;padding:36px 8px 0;box-sizing:content-box}.back{color:#6750a4;font-size:16px;display:flex;align-items:center;gap:2px}.t{flex:1;text-align:center;font-size:17px;font-weight:600;margin-right:70px}.c{padding:16px;font-size:14px;color:#49454f}",
+            "html": "<div class=\"bar\"><span class=\"back\">‹ Назад</span><span class=\"t\">Профиль</span></div><div class=\"c\">Android-приложение. Верхняя панель сделана по образцу iOS.</div>",
+            "height": 180
+          },
+          "options": [
+            "Нарушений нет",
+            "Скопирована iOS-кнопка «‹ Назад» с текстом и центрированный заголовок — в Android используют стрелку ← и системный жест",
+            "Слишком светлый фон",
+            "Нет FAB"
+          ],
+          "correct": 1,
+          "explain": "Пользователи Android привыкли к системному «назад» и стрелке в top app bar. Кнопка в стиле iOS выглядит чужой."
+        },
+        {
+          "q": "Что в M3 Expressive рекомендуют вместо navigation drawer?",
+          "options": [
+            "Hamburger-меню",
+            "Expanded navigation rail",
+            "Tab bar",
+            "FAB"
+          ],
+          "correct": 1,
+          "explain": "Drawer больше не рекомендуется: на больших экранах используют развёрнутый navigation rail, на телефонах — navigation bar."
+        },
+        {
+          "q": "Как в iOS показывают короткую задачу (фильтры, выбор параметров), не уводя с экрана?",
+          "options": [
+            "Alert",
+            "Sheet с detents medium и large",
+            "Новая вкладка",
+            "Toast"
+          ],
+          "correct": 1,
+          "explain": "Sheet выезжает снизу. Detent medium открывает его на половину экрана, large — почти на весь экран."
+        }
+      ],
+      "practice": "- Рисуйте **карту навигации** отдельно для каждой платформы: какие разделы в tab bar или navigation bar, где «назад», что открывается шитом.\n- В спецификации модальных окон указывайте **detents**, закрытие свайпом и что происходит с несохранёнными данными. Это частые вопросы разработчиков.\n- Спросите у Android-команды: «Поддерживаем ли predictive back?» Для этого анимация и логика «назад» должны быть объявлены заранее.",
+      "sources": [
+        {
+          "label": "Apple HIG — Tab bars",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/tab-bars"
+        },
+        {
+          "label": "Apple HIG — Sheets",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/sheets"
+        },
+        {
+          "label": "Material 3 — Navigation bar",
+          "url": "https://m3.material.io/components/navigation-bar/overview"
+        },
+        {
+          "label": "Material 3 — Navigation rail",
+          "url": "https://m3.material.io/components/navigation-rail/overview"
+        },
+        {
+          "label": "Material 3 — Bottom sheets",
+          "url": "https://m3.material.io/components/bottom-sheets/overview"
+        }
+      ]
+    },
+    {
+      "id": "l4-components",
+      "title": "Компоненты: кнопки, списки, поля, алерты и меню",
+      "summary": "Один и тот же элемент на двух платформах: как выглядит, как ведёт себя и как называется.",
+      "duration": "70–90 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "ds": 1
+      },
+      "theory": [
+        "### Кнопки\n\n| | iOS 27 | Material 3 Expressive |\n|---|---|---|\n| Главная | Prominent (заливка акцентным цветом), в том числе стеклянная **glass prominent** | **Filled** |\n| Второстепенная | Bordered / tinted (тонированная), **glass** | **Tonal**, **Outlined**, **Elevated** |\n| Третья | Plain (только текст) | **Text** |\n| Форма | Капсула, высота от 44pt | По умолчанию круглые, размеры **XS–XL**, форма может меняться при нажатии (shape morph) |\n| Особое | Кнопки в панелях объединяются в стеклянные группы | **FAB**, extended FAB, FAB menu, **button groups**, **split button** |",
+        "### Списки, поля и переключатели\n\n- **Списки.** iOS: *inset grouped* (группы на сером фоне), шеврон › для перехода, свайп по строке для действий. M3: строки во всю ширину в 1–3 строки текста, с ведущим (иконка, аватар) и замыкающим элементом.\n- **Поля ввода.** iOS: простое скруглённое поле, подпись часто — слева в строке формы или над полем. M3: **filled** и **outlined** text field с **плавающей подписью**, вспомогательным текстом и счётчиком.\n- **Переключатели.** iOS: зелёный toggle 51×31. M3: switch с иконкой в «бегунке» (handle), который растёт при нажатии.\n\n### Алерты и меню\n\n- **iOS Alert**: по центру, заголовок и текст по центру, кнопки рядом (2) или столбиком (3). Деструктивное действие — красное, отмена отдельно.\n- **M3 Dialog**: заголовок слева (Headline Small 24), текст, **текстовые кнопки справа**, подтверждающая — крайняя правая, скругление 28dp.\n- **Меню.** iOS: context menu по долгому нажатию (с размытием фона) и pull-down menu от кнопки. M3: menu от элемента, в Expressive обновлено скругление и группировка пунктов."
+      ],
+      "figma": "- Названия вариантов в библиотеке давайте **по терминам платформы**: `Button / Filled / Tonal / Outlined` для Android, `Button / Prominent / Bordered / Plain` для iOS. Разработчики увидят знакомые названия, а Code Connect подключит их к нужным компонентам кода.\n- Не делайте единый компонент «Alert» на обе платформы с вариантом platform=iOS/Android. Лучше **две отдельные библиотеки** с общими токенами контента.",
+      "widgets": [
+        {
+          "type": "comparator",
+          "title": "Сравнитель компонентов",
+          "description": "Кнопки, поле ввода, переключатель и диалог — одна задача, два языка.",
+          "ios": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{padding:56px 16px 16px}\nh3{font-size:13px;text-transform:uppercase;color:#6d6d72;font-weight:400;margin:14px 16px 6px}\n.btns{display:flex;gap:10px;flex-wrap:wrap}\n.b{height:44px;padding:0 20px;border-radius:22px;display:inline-flex;align-items:center;font-size:17px;font-weight:600}\n.b1{background:#007aff;color:#fff}.b2{background:rgba(0,122,255,.12);color:#007aff}.b3{color:#007aff;font-weight:400;padding:0 8px}\n.field{background:#fff;border-radius:12px;height:44px;display:flex;align-items:center;padding:0 16px;color:#c7c7cc}\n.cell{background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;min-height:44px}\n.sw{width:51px;height:31px;border-radius:16px;background:#34c759;position:relative}.sw::after{content:\"\";position:absolute;right:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2)}\n.alert{margin:18px auto 0;width:280px;background:rgba(255,255,255,.92);border-radius:26px;padding:20px 16px 14px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.18)}\n.alert b{display:block;font-size:17px;margin-bottom:4px}.alert p{font-size:13px;margin:0 0 14px;color:#333}\n.ab{display:flex;gap:8px}.ab span{flex:1;height:44px;border-radius:22px;display:grid;place-items:center;background:rgba(118,118,128,.14);font-size:17px}.ab .d{color:#ff3b30;font-weight:600}body{height:100vh;overflow:hidden}",
+            "html": "<h3>Кнопки</h3><div class=\"btns\" data-diff=\"buttons\"><span class=\"b b1\">Оплатить</span><span class=\"b b2\">Отложить</span><span class=\"b b3\">Отмена</span></div>\n<h3>Поле ввода</h3><div class=\"field\" data-diff=\"field\">Имя на карте</div>\n<h3>Переключатель</h3><div class=\"cell\" data-diff=\"switch\"><span>Автопродление</span><span class=\"sw\"></span></div>\n<div class=\"alert\" data-diff=\"dialog\"><b>Отменить подписку?</b><p>Доступ сохранится до конца оплаченного периода.</p><div class=\"ab\"><span>Нет</span><span class=\"d\">Отменить</span></div></div>"
+          },
+          "android": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{padding:48px 16px 16px;background:#fef7ff}\nh3{font-size:14px;color:#6750a4;font-weight:500;margin:14px 0 8px}\n.btns{display:flex;gap:8px;flex-wrap:wrap}\n.b{height:40px;padding:0 24px;border-radius:20px;display:inline-flex;align-items:center;font-size:14px;font-weight:500;letter-spacing:.1px}\n.b1{background:#6750a4;color:#fff}.b2{background:#e8def8;color:#4a4458}.b3{color:#6750a4;padding:0 12px}\n.field{position:relative;border:1px solid #79747e;border-radius:4px;height:56px;display:flex;align-items:center;padding:0 16px;color:#1d1b20}\n.field label{position:absolute;top:-9px;left:12px;background:#fef7ff;padding:0 4px;font-size:12px;color:#49454f}\n.cell{display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:0 8px 0 0}\n.sw{width:52px;height:32px;border-radius:16px;background:#6750a4;position:relative}.sw::after{content:\"✓\";position:absolute;right:4px;top:4px;width:24px;height:24px;border-radius:50%;background:#fff;color:#21005d;font-size:13px;display:grid;place-items:center}\n.scrim{margin:16px -16px 0;padding:16px;background:rgba(0,0,0,.32);border-radius:0}\n.dialog{background:#ece6f0;border-radius:28px;padding:24px;max-width:300px;margin:0 auto}\n.dialog b{display:block;font-size:24px;line-height:32px;font-weight:400;margin-bottom:16px}.dialog p{font-size:14px;line-height:20px;color:#49454f;margin:0 0 24px}\n.db{display:flex;justify-content:flex-end;gap:8px}.db span{height:40px;padding:0 12px;display:grid;place-items:center;color:#6750a4;font-size:14px;font-weight:500}body{height:100vh;overflow:hidden}",
+            "html": "<h3>Кнопки</h3><div class=\"btns\" data-diff=\"buttons\"><span class=\"b b1\">Оплатить</span><span class=\"b b2\">Отложить</span><span class=\"b b3\">Отмена</span></div>\n<h3>Поле ввода</h3><div class=\"field\" data-diff=\"field\"><label>Имя на карте</label>Анна Петрова</div>\n<h3>Переключатель</h3><div class=\"cell\" data-diff=\"switch\"><span>Автопродление</span><span class=\"sw\"></span></div>\n<div class=\"scrim\"><div class=\"dialog\" data-diff=\"dialog\"><b>Отменить подписку?</b><p>Доступ сохранится до конца оплаченного периода.</p><div class=\"db\"><span>Нет</span><span>Отменить</span></div></div></div>"
+          },
+          "diffs": [
+            {
+              "id": "buttons",
+              "label": "Кнопки",
+              "ios": "Капсулы высотой 44pt: prominent (заливка), tinted (тонированная), plain (только текст). Текст 17pt Semibold.",
+              "android": "Filled, tonal и text button высотой 40dp (с зоной касания 48dp), текст Label Large 14sp Medium."
+            },
+            {
+              "id": "field",
+              "label": "Поле ввода",
+              "ios": "Скруглённое поле без рамки на сером фоне, подсказка-плейсхолдер. Подпись — в заголовке группы.",
+              "android": "Outlined text field: рамка, плавающая подпись в разрыве рамки, высота 56dp."
+            },
+            {
+              "id": "switch",
+              "label": "Переключатель",
+              "ios": "Зелёный (systemGreen) toggle 51×31 без иконки.",
+              "android": "M3 Switch 52×32 цвета primary, в бегунке — галочка."
+            },
+            {
+              "id": "dialog",
+              "label": "Диалог подтверждения",
+              "ios": "Alert по центру: заголовок и текст по центру, две капсульные кнопки рядом, деструктивная — красная.",
+              "android": "Dialog: заголовок слева (24sp), кнопки-тексты справа, подтверждение — крайнее правое, скругление 28dp, затемнённый scrim."
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "q": "**Угадай платформу:** какой это навигационный паттерн?",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{height:100vh;position:relative}.c{padding:16px;color:#49454f;font-size:14px}.fab{position:absolute;right:16px;bottom:88px;width:56px;height:56px;border-radius:16px;background:#ffd8e4;display:grid;place-items:center;font-size:24px}.nb{position:absolute;bottom:0;left:0;right:0;height:72px;background:#f3edf7;display:flex;padding-top:6px}.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500}.p{width:56px;height:32px;border-radius:16px;display:grid;place-items:center}.on .p{background:#e8def8}",
+            "html": "<div class=\"c\">Лента</div><div class=\"fab\">✎</div><div class=\"nb\"><div class=\"ni on\"><span class=\"p\">⌂</span>Главная</div><div class=\"ni\"><span class=\"p\">♡</span>Избранное</div><div class=\"ni\"><span class=\"p\">☺</span>Профиль</div></div>",
+            "height": 230
+          },
+          "options": [
+            "iOS",
+            "Android (Material 3)"
+          ],
+          "correct": 1,
+          "explain": "FAB над нижней панелью и индикатор-«таблетка» за активной иконкой — это Material 3."
+        },
+        {
+          "q": "**Угадай платформу:**",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{padding:56px 0 0}.lt{font-size:34px;font-weight:700;padding:0 16px 12px}.g{margin:0 16px;background:#fff;border-radius:12px}.r{display:flex;padding:11px 16px;border-bottom:.5px solid #c6c6c8;justify-content:space-between}.r:last-child{border:0}.r span{color:#c4c4c7}",
+            "html": "<div class=\"lt\">Настройки</div><div class=\"g\"><div class=\"r\">Уведомления<span>›</span></div><div class=\"r\">Конфиденциальность<span>›</span></div><div class=\"r\">Аккаунт<span>›</span></div></div>",
+            "height": 200
+          },
+          "options": [
+            "iOS",
+            "Android (Material 3)"
+          ],
+          "correct": 0,
+          "explain": "Large Title, inset grouped список на сером фоне и шевроны › — классика iOS."
+        },
+        {
+          "q": "**Угадай платформу:**",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{display:flex;height:100vh}.rail{width:96px;background:#fef7ff;display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:24px;border-right:1px solid #e7e0ec}.fab{width:56px;height:56px;border-radius:16px;background:#eaddff;display:grid;place-items:center;font-size:22px;margin-bottom:12px}.i{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:500}.p{width:56px;height:32px;border-radius:16px;display:grid;place-items:center}.on .p{background:#e8def8}.c{flex:1;padding:24px;font-size:22px}",
+            "html": "<div class=\"rail\"><div class=\"fab\">✎</div><div class=\"i on\"><span class=\"p\">✉</span>Входящие</div><div class=\"i\"><span class=\"p\">★</span>Важное</div><div class=\"i\"><span class=\"p\">➤</span>Отправленные</div></div><div class=\"c\">Входящие</div>",
+            "height": 230
+          },
+          "options": [
+            "iOS (iPad)",
+            "Android (Material 3) на планшете"
+          ],
+          "correct": 1,
+          "explain": "Navigation rail с FAB наверху и «таблеткой» за активным пунктом — компонент Material 3 для средних и больших экранов."
+        },
+        {
+          "q": "**Найди нарушение гайдлайна** в iOS-приложении:",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:-apple-system,'SF Pro Text','SF Pro',system-ui,sans-serif;background:#f2f2f7;color:#000;font-size:17px;-webkit-font-smoothing:antialiased}body{height:100vh;position:relative;background:#fff}.lt{font-size:34px;font-weight:700;padding:60px 16px 8px}.r{padding:12px 16px;border-bottom:.5px solid #ddd}.fab{position:absolute;right:20px;bottom:100px;width:56px;height:56px;border-radius:16px;background:#007aff;color:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 4px 10px rgba(0,0,0,.25)}.t{position:absolute;left:20px;right:20px;bottom:22px;height:58px;border-radius:29px;background:rgba(242,242,247,.92);display:flex;align-items:center;justify-content:space-around;font-size:10px;color:#333}",
+            "html": "<div class=\"lt\">Заметки</div><div class=\"r\">Список покупок</div><div class=\"r\">Идеи для отпуска</div><div class=\"fab\">＋</div><div class=\"t\"><span style=\"color:#007aff\">▤ Заметки</span><span>◎ Папки</span></div>",
+            "height": 240
+          },
+          "options": [
+            "Large Title слишком большой",
+            "Плавающая кнопка FAB — паттерн Material. В iOS главное действие ставят в navigation bar или toolbar",
+            "Tab bar — капсула",
+            "Нарушений нет"
+          ],
+          "correct": 1,
+          "explain": "В iOS «＋» обычно в правом верхнем углу или в нижнем toolbar. FAB выдаёт приложение, «портированное» с Android."
+        },
+        {
+          "q": "Где в M3-диалоге стоит кнопка подтверждения?",
+          "options": [
+            "Слева",
+            "По центру",
+            "Справа, крайняя",
+            "Сверху"
+          ],
+          "correct": 2,
+          "explain": "Действия выровнены по правому краю, подтверждающее — последнее справа, отмена — левее."
+        }
+      ],
+      "practice": "- Делая кроссплатформенный продукт, составьте **таблицу соответствий**: «наш Primary Button = iOS Prominent = M3 Filled». Это словарь для дизайна, разработки и QA.\n- При ревью Android-сборки проверяйте **ripple / state layers** (отклик при нажатии), а в iOS — подсветку и хаптику. Без них интерфейс кажется «мёртвым».\n- Системные алерты и шиты лучше **не кастомизировать**: пользователи доверяют им, а разработчики получают доступность бесплатно.",
+      "sources": [
+        {
+          "label": "Apple HIG — Buttons",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/buttons"
+        },
+        {
+          "label": "Apple HIG — Alerts",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/alerts"
+        },
+        {
+          "label": "Apple HIG — Menus",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/menus"
+        },
+        {
+          "label": "Material 3 — Buttons",
+          "url": "https://m3.material.io/components/buttons/overview"
+        },
+        {
+          "label": "Material 3 — Dialogs",
+          "url": "https://m3.material.io/components/dialogs/overview"
+        },
+        {
+          "label": "Material 3 — Text fields",
+          "url": "https://m3.material.io/components/text-fields/overview"
+        }
+      ]
+    },
+    {
+      "id": "l5-typography",
+      "title": "Типографика: SF Pro и Dynamic Type против Roboto и шкалы M3",
+      "summary": "Системные шрифты, текстовые стили и масштабирование текста по настройкам пользователя.",
+      "duration": "60–80 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "tokens": 1
+      },
+      "theory": [
+        "### iOS: SF Pro и Dynamic Type\n\n**SF Pro** — системный шрифт Apple. Он вариативный: оптические размеры (Text для мелкого, Display для крупного) переключаются автоматически, трекинг тоже подстраивается под размер. Есть ещё **SF Compact** (Watch), **SF Mono** и антиква **New York**.\n\nВместо конкретных размеров используют **текстовые стили** Dynamic Type. Размеры по умолчанию (категория Large):\n\n| Стиль | Размер / интерлиньяж, pt |\n|---|---|\n| Large Title | 34 / 41 |\n| Title 1 · Title 2 · Title 3 | 28/34 · 22/28 · 20/25 |\n| Headline (Semibold) | 17 / 22 |\n| **Body** | **17 / 22** |\n| Callout · Subheadline | 16/21 · 15/20 |\n| Footnote · Caption 1 · Caption 2 | 13/18 · 12/16 · 11/13 |\n\nПользователь выбирает размер текста в настройках: от xSmall до xxxLarge и ещё 5 размеров для доступности (AX1–AX5). Body на AX5 — это **53pt**. Интерфейс обязан это выдерживать.",
+        "### Material 3: шкала типографики\n\nШрифт по умолчанию — **Roboto** (и вариативный **Roboto Flex**). В M3 Expressive к базовым стилям добавились **emphasized**-варианты, более жирные и выразительные.\n\n| Роль | Large | Medium | Small |\n|---|---|---|---|\n| **Display** | 57/64 | 45/52 | 36/44 |\n| **Headline** | 32/40 | 28/36 | 24/32 |\n| **Title** | 22/28 | 16/24 · 500 | 14/20 · 500 |\n| **Body** | **16/24 · +0.5** | 14/20 · +0.25 | 12/16 · +0.4 |\n| **Label** | 14/20 · 500 · +0.1 | 12/16 · 500 · +0.5 | 11/16 · 500 · +0.5 |\n\n(размер/интерлиньяж в sp · вес · трекинг в sp)\n\nAndroid масштабирует sp по настройке шрифта, с Android 14 — **до 200%**, причём **нелинейно**: крупный текст растёт меньше мелкого, чтобы заголовки не «взрывались».",
+        "### Как это в вебе\n\n~~~css\n/* iOS-подобный системный шрифт */\nfont-family: -apple-system, system-ui, sans-serif;\n/* В Safari есть даже системные стили Dynamic Type: */\nfont: -apple-system-body;\n~~~\n\nВеб-аналог масштабирования — **rem**: если пользователь увеличил шрифт в браузере, rem растёт. Размеры в px — не растут."
+      ],
+      "figma": "- В UI-ките Apple текстовые стили уже названы как Dynamic Type (Body, Headline…). Не переименовывайте их, это прямой мост к `.font(.body)` в SwiftUI.\n- В M3 Kit стили названы по ролям (Body Large, Title Medium) и связаны с Variables. Это мост к `MaterialTheme.typography.bodyLarge`.\n- Сделайте **экран-стресс-тест** с крупным текстом (iOS AX3, Android 200%): переносы, обрезка, кнопки в две строки. Плагины для Figma умеют масштабировать текст, но проще сделать вариант вручную.",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Dynamic Type и масштаб шрифта Android",
+          "description": "Слева — iOS Body при разных настройках размера текста, справа — Android Body Large с масштабом. Сравните, как растёт карточка.",
+          "height": 340,
+          "html": "<div class=\"cols\"><div class=\"card ios\"><div class=\"t1\">Напоминание</div><div class=\"b\">Оплата подписки «Музыка» завтра, 299 ₽. Отключить автопродление можно в настройках.</div><div class=\"btn\">Открыть</div></div><div class=\"card md\"><div class=\"t1\">Напоминание</div><div class=\"b\">Оплата подписки «Музыка» завтра, 299 ₽. Отключить автопродление можно в настройках.</div><div class=\"btn\">Открыть</div></div></div>",
+          "css": ".cols{display:flex;gap:12px;padding:12px;align-items:flex-start}.card{flex:1;border-radius:16px;padding:14px;min-width:0}\n.ios{font-family:-apple-system,system-ui,sans-serif;background:#f2f2f7}\n.ios .t1{font-weight:600;font-size:calc(var(--ios) * 1px);line-height:1.3}\n.ios .b{font-size:calc(var(--ios) * 1px);line-height:calc(var(--ios) * 1.29px);margin:4px 0 10px}\n.ios .btn{display:inline-block;background:#007aff;color:#fff;border-radius:999px;padding:8px 16px;font-weight:600;font-size:calc(var(--ios) * 1px)}\n.md{font-family:Roboto,system-ui,sans-serif;background:#f3edf7}\n.md .t1{font-weight:500;font-size:calc(16px * var(--scale));line-height:1.5}\n.md .b{font-size:calc(16px * var(--scale));line-height:calc(24px * var(--scale));letter-spacing:.5px;margin:4px 0 10px;color:#49454f}\n.md .btn{display:inline-block;background:#6750a4;color:#fff;border-radius:20px;padding:10px 24px;font-weight:500;font-size:calc(14px * var(--scale))}",
+          "code": "/* iOS Body: var(--ios)pt */\n.ios .b { font-size: var(--ios)px; }\n\n/* Android Body Large: 16sp × var(--scale) */\n.md .b { font-size: calc(16px * var(--scale)); }",
+          "controls": [
+            {
+              "type": "select",
+              "var": "--ios",
+              "label": "iOS: размер текста",
+              "value": "17",
+              "options": [
+                {
+                  "label": "xSmall — 14pt",
+                  "value": "14"
+                },
+                {
+                  "label": "Medium — 16pt",
+                  "value": "16"
+                },
+                {
+                  "label": "Large (по умолчанию) — 17pt",
+                  "value": "17"
+                },
+                {
+                  "label": "xxLarge — 21pt",
+                  "value": "21"
+                },
+                {
+                  "label": "xxxLarge — 23pt",
+                  "value": "23"
+                },
+                {
+                  "label": "AX1 — 28pt",
+                  "value": "28"
+                },
+                {
+                  "label": "AX3 — 40pt",
+                  "value": "40"
+                },
+                {
+                  "label": "AX5 — 53pt",
+                  "value": "53"
+                }
+              ]
+            },
+            {
+              "type": "range",
+              "var": "--scale",
+              "label": "Android: масштаб шрифта",
+              "min": 0.85,
+              "max": 2,
+              "step": 0.05,
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "platform-type",
+        "title": "Текстовые стили платформ",
+        "brief": "Задайте стили по спецификациям платформ (в CSS используем px вместо pt и sp):\n\n**iOS** (`.ios`):\n- `.large-title` — **34px**, вес **700**, интерлиньяж **41px**;\n- `.body` — **17px**, интерлиньяж **22px**.\n\n**Material 3** (`.md`):\n- `.headline-small` — **24px**, интерлиньяж **32px**, вес 400;\n- `.body-large` — **16px**, интерлиньяж **24px**, трекинг **0.5px**.",
+        "files": {
+          "html": "<section class=\"ios\">\n  <h1 class=\"large-title\">Подписки</h1>\n  <p class=\"body\">Здесь собраны все ваши регулярные платежи.</p>\n</section>\n\n<section class=\"md\">\n  <h1 class=\"headline-small\">Подписки</h1>\n  <p class=\"body-large\">Здесь собраны все ваши регулярные платежи.</p>\n</section>",
+          "css": "body { margin: 0; display: grid; grid-template-columns: 1fr 1fr; }\nsection { padding: 24px 16px; }\nh1, p { margin: 0 0 8px; }\n.ios { font-family: -apple-system, system-ui, sans-serif; background: #f2f2f7; }\n.md { font-family: Roboto, system-ui, sans-serif; background: #fef7ff; }\n\n.ios .large-title {\n\n}\n.ios .body {\n\n}\n.md .headline-small {\n\n}\n.md .body-large {\n\n}\n"
+        },
+        "checks": [
+          {
+            "type": "style",
+            "selector": ".ios .large-title",
+            "prop": "font-size",
+            "equals": "34px",
+            "label": "iOS Large Title: 34",
+            "hint": "Large Title в iOS по умолчанию 34pt."
+          },
+          {
+            "type": "style",
+            "selector": ".ios .large-title",
+            "prop": "font-weight",
+            "equals": "700",
+            "label": "iOS Large Title: Bold",
+            "hint": "Large Title жирный: font-weight 700."
+          },
+          {
+            "type": "style",
+            "selector": ".ios .large-title",
+            "prop": "line-height",
+            "equals": "41px",
+            "label": "iOS Large Title: интерлиньяж 41",
+            "hint": "Здесь можно задать line-height в px, чтобы точно совпасть со спецификацией."
+          },
+          {
+            "type": "style",
+            "selector": ".ios .body",
+            "prop": "font-size",
+            "equals": "17px",
+            "label": "iOS Body: 17",
+            "hint": "Базовый текст iOS — 17pt, а не 16!"
+          },
+          {
+            "type": "style",
+            "selector": ".ios .body",
+            "prop": "line-height",
+            "equals": "22px",
+            "label": "iOS Body: интерлиньяж 22",
+            "hint": "Body 17/22."
+          },
+          {
+            "type": "style",
+            "selector": ".md .headline-small",
+            "prop": "font-size",
+            "equals": "24px",
+            "label": "M3 Headline Small: 24",
+            "hint": "Headline Small — 24sp."
+          },
+          {
+            "type": "style",
+            "selector": ".md .headline-small",
+            "prop": "font-weight",
+            "equals": "400",
+            "label": "M3 Headline Small: Regular",
+            "hint": "h1 по умолчанию жирный. В M3 headline обычного начертания — верните font-weight 400."
+          },
+          {
+            "type": "style",
+            "selector": ".md .headline-small",
+            "prop": "line-height",
+            "equals": "32px",
+            "label": "M3 Headline Small: интерлиньяж 32",
+            "hint": "Headline Small 24/32."
+          },
+          {
+            "type": "style",
+            "selector": ".md .body-large",
+            "prop": "line-height",
+            "equals": "24px",
+            "label": "M3 Body Large: 16/24",
+            "hint": "Body Large — 16sp с интерлиньяжем 24."
+          },
+          {
+            "type": "style",
+            "selector": ".md .body-large",
+            "prop": "letter-spacing",
+            "equals": "0.5px",
+            "label": "M3 Body Large: трекинг 0.5",
+            "hint": "В M3 у Body Large положительный трекинг 0.5sp — свойство letter-spacing."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Какой размер у основного текста (**Body**) в iOS по умолчанию?",
+          "options": [
+            "14pt",
+            "16pt",
+            "17pt",
+            "18pt"
+          ],
+          "correct": 2,
+          "explain": "Body в iOS — 17pt. В Material Body Large — 16sp. Мелочь, которую часто путают."
+        },
+        {
+          "q": "Что такое **Dynamic Type**?",
+          "options": [
+            "Анимация текста",
+            "Системная настройка размера текста, под которую масштабируются текстовые стили",
+            "Шрифт Apple",
+            "Режим тёмной темы"
+          ],
+          "correct": 1,
+          "explain": "Пользователь выбирает размер текста в настройках, а стили Body, Headline и другие масштабируются автоматически."
+        },
+        {
+          "q": "Сколько ролей в базовой шкале типографики M3?",
+          "options": [
+            "5 ролей × 3 размера = 15 стилей",
+            "7 стилей",
+            "11 стилей, как в iOS",
+            "Бесконечно"
+          ],
+          "correct": 0,
+          "explain": "Display, Headline, Title, Body, Label, каждая в Large, Medium и Small. В Expressive к ним добавлены emphasized-варианты."
+        },
+        {
+          "q": "Почему Android с версии 14 масштабирует шрифт **нелинейно**?",
+          "options": [
+            "Ради производительности",
+            "Чтобы крупные заголовки при 200% не становились огромными, а мелкий текст заметно рос",
+            "Это ошибка",
+            "Чтобы экономить место на диске"
+          ],
+          "correct": 1,
+          "explain": "Мелкий текст важнее увеличить сильнее. Крупному тексту достаточно и меньшего роста."
+        }
+      ],
+      "practice": "- Делая продукт на обе платформы, **не тащите одну шкалу на обе**. Держите общие токены по ролям (`text-body`, `text-title`), а значения — платформенные: 17/22 для iOS и 16/24 для Android.\n- В требования к QA добавьте пункт **«проверка на максимальном размере текста»**.\n- Если бренд требует свой шрифт, спросите: поддерживает ли он масштабирование и кириллицу во всех нужных начертаниях? В iOS кастомные шрифты подключаются к Dynamic Type через `UIFontMetrics`, в Compose — через `Typography`.",
+      "sources": [
+        {
+          "label": "Apple HIG — Typography",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/typography"
+        },
+        {
+          "label": "Apple Fonts (SF Pro)",
+          "url": "https://developer.apple.com/fonts/"
+        },
+        {
+          "label": "Material 3 — Type scale tokens",
+          "url": "https://m3.material.io/styles/typography/type-scale-tokens"
+        },
+        {
+          "label": "Material 3 — Typography",
+          "url": "https://m3.material.io/styles/typography/overview"
+        }
+      ]
+    },
+    {
+      "id": "l6-color",
+      "title": "Цвет и темы: семантика iOS против ролей M3",
+      "summary": "Семантические цвета iOS, dynamic color и цветовые роли Material 3, тёмная тема.",
+      "duration": "70–90 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "tokens": 2
+      },
+      "theory": [
+        "### iOS: семантические цвета\n\nApple даёт **готовые цвета-роли**, которые сами переключаются в тёмной теме и при повышенном контрасте:\n\n- **Текст:** `label`, `secondaryLabel`, `tertiaryLabel`, `quaternaryLabel`.\n- **Фоны:** `systemBackground` → `secondarySystemBackground` → `tertiarySystemBackground`. Для сгруппированных списков — варианты `systemGroupedBackground`.\n- **Прочее:** `separator`, `tint` (акцентный цвет приложения).\n- **Системные цвета** (`systemBlue`, `systemRed`, `systemGreen`…) — это тоже адаптивные пары: в тёмной теме они чуть светлее и насыщеннее.\n\nВ тёмной теме iOS базовый фон **чисто чёрный**, а «поднятые» поверхности (шиты, поповеры) — светлее. Liquid Glass к тому же **подстраивает цвет** контролов под контент под ними. Поэтому важно, чтобы контраст держался в любом сочетании.",
+        "### Material 3: цветовые роли и dynamic color\n\nM3 описывает цвет **ролями**, у каждой есть пара «on-» для контента поверх:\n\n| Роль | Для чего |\n|---|---|\n| `primary` / `on-primary` | Главные акценты: filled button, FAB, активные элементы |\n| `primary-container` / `on-primary-container` | Менее яркие акцентные заливки |\n| `secondary` / `tertiary` (+ container) | Второстепенные и контрастные акценты |\n| `error` (+ container) | Ошибки |\n| `surface` / `on-surface` / `on-surface-variant` | Фоны и текст |\n| `surface-container-lowest … highest` | 5 уровней поверхностей вместо теней |\n| `outline` / `outline-variant` | Рамки и разделители |\n\nВсе роли берутся из **тональных палитр** (тона 0–100) в цветовой модели HCT. Например, в светлой теме `primary` = тон 40, в тёмной — тон 80. Поэтому тёмная тема получается «сама».\n\n**Dynamic color:** на Android 12+ исходный цвет берётся из обоев, и из него строится вся схема. Можно отключить и использовать брендовую схему. Есть уровни контраста: стандартный, средний и высокий."
+      ],
+      "figma": "- В iOS-ките цвета уже заведены как **Variables с режимами Light / Dark** (и Increased Contrast). Привязывайте к ним слои, а не к hex.\n- **Material Theme Builder** (плагин и веб) экспортирует роли M3 как Figma Variables, CSS-переменные, Compose-тему и JSON токенов. Это прямой мост из Figma в код.\n- Проверяйте тёмную тему **переключением режима коллекции**, а не отдельным «тёмным файлом».",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Роли M3 из одного исходного цвета",
+          "description": "Упрощённая имитация dynamic color: из одного оттенка (hue) строятся роли. Переключите тёмную тему: роли те же, тона другие.",
+          "height": 330,
+          "html": "<div class=\"screen\"><div class=\"bar\">Подписки</div><div class=\"card\"><b>Музыка</b><p>Списание завтра · 299 ₽</p><div class=\"row\"><span class=\"btn\">Оплатить</span><span class=\"tonal\">Отложить</span></div></div><div class=\"chips\"><span>primary</span><span class=\"c2\">primary-container</span><span class=\"c3\">surface-container</span></div><div class=\"fab\">＋</div></div>",
+          "css": ":root{--primary:hsl(var(--h) 45% 42%);--on-primary:#fff;--primary-container:hsl(var(--h) 90% 92%);--on-primary-container:hsl(var(--h) 60% 18%);--surface:hsl(var(--h) 60% 98.5%);--surface-container:hsl(var(--h) 25% 93%);--on-surface:hsl(var(--h) 10% 12%);--on-surface-variant:hsl(var(--h) 8% 32%)}\n.dark{--primary:hsl(var(--h) 70% 80%);--on-primary:hsl(var(--h) 60% 20%);--primary-container:hsl(var(--h) 45% 30%);--on-primary-container:hsl(var(--h) 90% 92%);--surface:hsl(var(--h) 10% 8%);--surface-container:hsl(var(--h) 10% 14%);--on-surface:hsl(var(--h) 15% 90%);--on-surface-variant:hsl(var(--h) 10% 75%)}\nbody{background:var(--surface);color:var(--on-surface);font-family:Roboto,system-ui;height:100vh;position:relative}.bar{padding:16px;font-size:22px}.card{margin:0 16px;background:var(--surface-container);border-radius:16px;padding:16px}.card p{color:var(--on-surface-variant);margin:4px 0 12px;font-size:14px}.row{display:flex;gap:8px}.btn{background:var(--primary);color:var(--on-primary);border-radius:20px;padding:10px 20px;font-size:14px;font-weight:500}.tonal{background:var(--primary-container);color:var(--on-primary-container);border-radius:20px;padding:10px 20px;font-size:14px;font-weight:500}.chips{display:flex;gap:6px;padding:16px;flex-wrap:wrap}.chips span{font:11px monospace;padding:4px 8px;border-radius:8px;background:var(--primary);color:var(--on-primary)}.chips .c2{background:var(--primary-container);color:var(--on-primary-container)}.chips .c3{background:var(--surface-container);color:var(--on-surface)}.fab{position:absolute;right:16px;bottom:16px;width:56px;height:56px;border-radius:16px;background:var(--primary-container);color:var(--on-primary-container);display:grid;place-items:center;font-size:24px}",
+          "code": ":root {\n  --primary: hsl(var(--h) 45% 42%);   /* тон ~40 */\n  --primary-container: hsl(var(--h) 90% 92%);\n}\n.dark {\n  --primary: hsl(var(--h) 70% 80%);   /* тон ~80 */\n  --primary-container: hsl(var(--h) 45% 30%);\n}\n.btn { background: var(--primary); color: var(--on-primary); }",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--h",
+              "label": "Исходный цвет (hue) — «обои»",
+              "min": 0,
+              "max": 360,
+              "value": 265
+            },
+            {
+              "type": "toggle",
+              "className": "dark",
+              "label": "Тёмная тема",
+              "value": false
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "platform-colors",
+        "title": "Семантические токены для двух платформ",
+        "brief": "Для iOS-карточки семантические токены уже заведены как пример: `--ios-label` и `--ios-background` в `:root` и переопределены в `.dark`. Сделайте то же самое для Material 3:\n\n1. В `:root` объявите `--md-primary` и `--md-on-primary` (светлая тема).\n2. В `.dark` переопределите **оба** токена (в тёмной теме primary светлее, on-primary темнее).\n3. Кнопка `.md-btn` должна брать фон из `var(--md-primary)`, а цвет текста — из `var(--md-on-primary)`.\n4. Цвет текста iOS-карточки `.ios-card` возьмите из `var(--ios-label)`.",
+        "files": {
+          "html": "<div class=\"theme light\">\n  <div class=\"ios-card\">iOS · label на systemBackground</div>\n  <button class=\"md-btn\">M3 · Filled button</button>\n</div>\n<div class=\"theme dark\">\n  <div class=\"ios-card\">iOS · label на systemBackground</div>\n  <button class=\"md-btn\">M3 · Filled button</button>\n</div>",
+          "css": ":root {\n  --ios-label: #000000;\n  --ios-background: #ffffff;\n  /* M3: */\n\n}\n\n.dark {\n  --ios-label: #ffffff;\n  --ios-background: #000000;\n  /* M3: */\n\n}\n\nbody { margin: 0; display: grid; grid-template-columns: 1fr 1fr; font-family: system-ui; }\n.theme { padding: 24px; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }\n.light { background: #f2f2f7; }\n.dark { background: #1c1c1e; }\n\n.ios-card {\n  background: var(--ios-background);\n  padding: 16px;\n  border-radius: 12px;\n  /* цвет текста: */\n}\n\n.md-btn {\n  border: 0;\n  border-radius: 20px;\n  padding: 10px 24px;\n  font-weight: 500;\n  /* фон и текст из токенов: */\n}\n"
+        },
+        "checks": [
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": ":root\\s*\\{[^}]*--md-primary\\s*:",
+            "label": "--md-primary объявлен в :root",
+            "hint": "Объявите переменную в блоке :root: --md-primary: #6750a4;"
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": ":root\\s*\\{[^}]*--md-on-primary\\s*:",
+            "label": "--md-on-primary объявлен в :root",
+            "hint": "У каждой роли M3 есть пара «on-» для текста поверх неё."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.dark\\s*\\{[^}]*--md-primary\\s*:",
+            "label": ".dark переопределяет --md-primary",
+            "hint": "Тёмная тема переопределяет те же токены, а не создаёт новые."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.dark\\s*\\{[^}]*--md-on-primary\\s*:",
+            "label": ".dark переопределяет --md-on-primary",
+            "hint": "И пару on-primary тоже."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.md-btn\\s*\\{[^}]*background(-color)?\\s*:\\s*var\\(\\s*--md-primary\\s*\\)",
+            "label": "Фон кнопки из var(--md-primary)",
+            "hint": "В .md-btn: background: var(--md-primary);"
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.md-btn\\s*\\{[^}]*[^-]color\\s*:\\s*var\\(\\s*--md-on-primary\\s*\\)",
+            "label": "Текст кнопки из var(--md-on-primary)",
+            "hint": "Свойство color в .md-btn должно ссылаться на токен."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.ios-card\\s*\\{[^}]*[^-]color\\s*:\\s*var\\(\\s*--ios-label\\s*\\)",
+            "label": "Текст iOS-карточки из var(--ios-label)",
+            "hint": "В .ios-card добавьте color: var(--ios-label);"
+          },
+          {
+            "type": "style",
+            "selector": ".dark .ios-card",
+            "prop": "color",
+            "equals": "rgb(255, 255, 255)",
+            "label": "В тёмной теме текст iOS-карточки белый",
+            "hint": "Если токен подключён, тёмная тема переключит его сама."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Зачем у каждой роли M3 есть пара **on-** (например, ^^on-primary^^)?",
+          "options": [
+            "Для анимации",
+            "Это цвет контента (текста, иконок) поверх этой роли — с гарантированным контрастом",
+            "Для состояния hover",
+            "Это старая версия токена"
+          ],
+          "correct": 1,
+          "explain": "primary — заливка, on-primary — текст и иконки на ней. Пара подобрана с нужным контрастом в обеих темах."
+        },
+        {
+          "q": "Что произойдёт с ^^label^^ в iOS при включении тёмной темы?",
+          "options": [
+            "Ничего, он останется чёрным",
+            "Автоматически станет светлым — это семантический цвет",
+            "Станет синим",
+            "Исчезнет"
+          ],
+          "correct": 1,
+          "explain": "Семантические цвета iOS — адаптивные пары. Именно поэтому их используют вместо hex."
+        },
+        {
+          "q": "**Найди нарушение гайдлайна:**",
+          "preview": {
+            "css": "*{box-sizing:border-box}body{margin:0;font-family:Roboto,'Roboto Flex','Google Sans',system-ui,sans-serif;background:#fef7ff;color:#1d1b20;font-size:16px}body{background:#fff;padding:48px 20px}.h{font-size:22px;margin-bottom:8px}.p{color:#c4c4c4;font-size:14px;line-height:20px}.btn{margin-top:16px;display:inline-block;background:#e8def8;color:#cbbff0;padding:10px 24px;border-radius:20px;font-weight:500;font-size:14px}",
+            "html": "<div class=\"h\">Подтвердите номер</div><div class=\"p\">Мы отправили код на +7 900 000-00-00. Он придёт в течение минуты.</div><span class=\"btn\">Продолжить</span>",
+            "height": 200
+          },
+          "options": [
+            "Заголовок слишком мелкий",
+            "Текст и кнопка с очень низким контрастом (меньше 3:1) — не проходит ни M3, ни WCAG",
+            "Кнопка скруглена",
+            "Нарушений нет"
+          ],
+          "correct": 1,
+          "explain": "Светло-серый текст на белом и бледный текст кнопки на светлой заливке нечитаемы. Используйте on-surface-variant и on-secondary-container."
+        },
+        {
+          "q": "Чем M3 заменяет тени для «уровней» поверхностей?",
+          "options": [
+            "Ничем",
+            "Пятью токенами surface-container: от lowest до highest",
+            "Обводками",
+            "Градиентами"
+          ],
+          "correct": 1,
+          "explain": "Иерархию передают тоном поверхности, а не тенью. Это лучше работает в тёмной теме."
+        }
+      ],
+      "practice": "- Называйте цвета в макетах **ролями**, а не оттенками: «фон карточки — surface-container», а не «светло-сиреневый #F3EDF7».\n- Договоритесь с командой Android: **используем ли dynamic color?** Если да, бренд-цвет сохранится только в иллюстрациях и логотипе — это решение продукта, а не только дизайна.\n- В iOS проверяйте макеты с **Increase Contrast** и **Reduce Transparency**: стекло Liquid Glass станет плотнее, и это должно выглядеть нормально.",
+      "sources": [
+        {
+          "label": "Apple HIG — Color",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/color"
+        },
+        {
+          "label": "Apple HIG — Dark Mode",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/dark-mode"
+        },
+        {
+          "label": "Apple HIG — Materials",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/materials"
+        },
+        {
+          "label": "Material 3 — Color roles",
+          "url": "https://m3.material.io/styles/color/roles"
+        },
+        {
+          "label": "Material 3 — Dynamic color",
+          "url": "https://m3.material.io/styles/color/dynamic/choosing-a-source"
+        }
+      ]
+    },
+    {
+      "id": "l7-icons",
+      "title": "Иконки: SF Symbols против Material Symbols",
+      "summary": "Системные библиотеки иконок, их оси, размеры, режимы отрисовки и лицензии.",
+      "duration": "45–60 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 2,
+        "tokens": 1
+      },
+      "theory": [
+        "### SF Symbols (Apple)\n\n- Актуальная версия — **SF Symbols 8** (бета в июне 2026, вышла вместе с iOS 27). Больше **7 000** символов.\n- Символы спроектированы **вместе со шрифтом SF Pro**: 9 весов (от Ultralight до Black) и 3 масштаба (small, medium, large) выравниваются по тексту. Иконка рядом со словом «Сохранить» автоматически совпадает с ним по весу и базовой линии.\n- **Режимы отрисовки:** monochrome, hierarchical (оттенки одного цвета), palette (несколько заданных цветов), multicolor (фирменные цвета символа). Плюс **variable color** для уровней («сила сигнала»).\n- **Анимации:** bounce, pulse, wiggle, replace, а с SF Symbols 7 — **Draw** (символ «рисуется» линией).\n- **Лицензия:** только для интерфейсов на платформах Apple. В Android-версии и на сайте использовать **нельзя**.",
+        "### Material Symbols (Google)\n\n- **Вариативный шрифт** иконок, больше 3 000 символов, 3 стиля: **Outlined**, **Rounded**, **Sharp**.\n- 4 оси вариативности:\n  - **FILL** 0–1 — контур или заливка (заливка — для активного состояния);\n  - **wght** 100–700 — толщина линии (подбирайте под вес текста);\n  - **GRAD** — тонкая подстройка толщины без изменения размера, например для тёмной темы;\n  - **opsz** 20–48 — оптический размер (детализация под размер иконки).\n- Стандартный размер — **24dp** в зоне касания 48dp.\n- **Лицензия Apache 2.0**: можно использовать где угодно, включая веб и iOS.\n\n~~~html\n<link href=\"https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200\" rel=\"stylesheet\">\n<span class=\"material-symbols-rounded\">favorite</span>\n~~~"
+      ],
+      "figma": "- **SF Symbols** — отдельное приложение для Mac: из него копируют символы в Figma (нужен установленный шрифт SF Pro) и экспортируют шаблоны для своих символов.\n- **Material Symbols** есть в Figma Community и как плагин. Оси FILL и weight удобно сделать **свойствами компонента** иконки.\n- Называйте иконки в макете **системными именами**: `heart.fill` (SF) и `favorite` (Material). Разработчик найдёт их по имени за секунду.",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Оси Material Symbols",
+          "description": "Настоящий вариативный шрифт Material Symbols Rounded: подвигайте оси. Обратите внимание, как FILL отличает активное состояние.",
+          "height": 260,
+          "html": "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200\"><div class=\"row\"><span class=\"ms\">home</span><span class=\"ms\">favorite</span><span class=\"ms\">search</span><span class=\"ms\">notifications</span><span class=\"ms\">settings</span><span class=\"ms\">person</span></div><p class=\"cap\">Текст рядом с иконкой · <b>Label</b></p>",
+          "css": "body{font-family:Roboto,system-ui;padding:24px;background:#fef7ff;color:#1d1b20}.row{display:flex;gap:20px;flex-wrap:wrap}\n.ms {\n  font-family: \"Material Symbols Rounded\";\n  font-size: calc(var(--size) * 1px);\n  font-variation-settings: \"FILL\" var(--fill), \"wght\" var(--wght), \"GRAD\" var(--grad), \"opsz\" var(--size);\n  line-height: 1;\n}\n.cap{font-size:14px;color:#49454f;font-weight:var(--wght)}",
+          "code": ".icon {\n  font-family: \"Material Symbols Rounded\";\n  font-size: var(--size)px;\n  font-variation-settings:\n    \"FILL\" var(--fill),\n    \"wght\" var(--wght),\n    \"GRAD\" var(--grad),\n    \"opsz\" var(--size);\n}",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--fill",
+              "label": "FILL (заливка)",
+              "min": 0,
+              "max": 1,
+              "step": 1,
+              "value": 0
+            },
+            {
+              "type": "range",
+              "var": "--wght",
+              "label": "wght (толщина)",
+              "min": 100,
+              "max": 700,
+              "step": 100,
+              "value": 400
+            },
+            {
+              "type": "range",
+              "var": "--grad",
+              "label": "GRAD (градация)",
+              "min": -25,
+              "max": 200,
+              "step": 25,
+              "value": 0
+            },
+            {
+              "type": "range",
+              "var": "--size",
+              "label": "Размер / opsz",
+              "min": 20,
+              "max": 48,
+              "value": 24
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Можно ли использовать **SF Symbols** в Android-приложении или на сайте?",
+          "options": [
+            "Да, они бесплатные",
+            "Нет: по лицензии только в интерфейсах на платформах Apple",
+            "Только в вебе",
+            "Только для коммерческих проектов"
+          ],
+          "correct": 1,
+          "explain": "SF Symbols лицензированы для приложений Apple-платформ. Для Android и веба берите Material Symbols или свою библиотеку."
+        },
+        {
+          "q": "Какая ось Material Symbols обычно показывает **активное** состояние иконки в навигации?",
+          "options": [
+            "wght",
+            "GRAD",
+            "FILL",
+            "opsz"
+          ],
+          "correct": 2,
+          "explain": "Неактивная иконка — контур (FILL 0), активная — с заливкой (FILL 1)."
+        },
+        {
+          "q": "Почему SF Symbols так хорошо сочетаются с текстом?",
+          "options": [
+            "Они растровые",
+            "У них те же 9 весов и метрики, что у SF Pro, они выравниваются по базовой линии",
+            "Они всегда чёрные",
+            "Случайно"
+          ],
+          "correct": 1,
+          "explain": "Символ с весом Semibold рядом с текстом Semibold выглядит как часть шрифта."
+        }
+      ],
+      "practice": "- Для кроссплатформенного продукта решите заранее: **системные иконки на каждой платформе** (SF на iOS, Material на Android) или **одна своя библиотека**. Первое нативнее, второе дешевле в поддержке.\n- В спецификации указывайте имя символа, **вес, масштаб и режим отрисовки** (SF) или стиль и значения осей (Material).\n- У каждой иконки-кнопки должна быть **текстовая подпись** для скринридера. Об этом — в уроке про доступность.",
+      "sources": [
+        {
+          "label": "SF Symbols",
+          "url": "https://developer.apple.com/sf-symbols/"
+        },
+        {
+          "label": "Apple HIG — SF Symbols",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/sf-symbols"
+        },
+        {
+          "label": "Material 3 — Icons",
+          "url": "https://m3.material.io/styles/icons/overview"
+        },
+        {
+          "label": "Google Fonts — Material Symbols",
+          "url": "https://fonts.google.com/icons"
+        }
+      ]
+    },
+    {
+      "id": "l8-motion",
+      "title": "Motion и обратная связь: анимации, haptics, состояния",
+      "summary": "Пружинная физика на обеих платформах, тактильный отклик и визуальные состояния элементов.",
+      "duration": "60–80 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 2,
+        "motion": 2
+      },
+      "theory": [
+        "### Анимации\n\n**iOS.** Анимации в Apple-системах — «физические» и **прерываемые**: пружины (springs), которые можно остановить пальцем на середине. В SwiftUI пружина — анимация по умолчанию. Liquid Glass добавил «жидкие» переходы: стеклянные элементы перетекают друг в друга, кнопка морфится в меню или шит.\n\n**Material 3 Expressive.** Новая **motion physics system**: вместо кривых и длительностей — пружины с двумя типами:\n- **spatial** — для движения, размера и формы; могут слегка «перелетать» (overshoot);\n- **effects** — для цвета и прозрачности; без перелёта.\n\nИ две схемы: **standard** (сдержанная) и **expressive** (живая, с отскоком). Прежние easing-токены M3 тоже встречаются в коде: `emphasized`, `standard` и длительности short, medium, long.\n\n**Общее правило:** анимация объясняет, *откуда пришёл и куда ушёл* элемент. Если она не помогает понять — она лишняя. И всегда уважайте настройку **Reduce Motion** (iOS) / **Remove animations** (Android) — в вебе `prefers-reduced-motion`.",
+        "### Haptics — тактильный отклик\n\n| | iOS | Android |\n|---|---|---|\n| API | `UIImpactFeedbackGenerator` (light, medium, heavy, soft, rigid), `UISelectionFeedbackGenerator`, `UINotificationFeedbackGenerator` (success, warning, error). В SwiftUI — `.sensoryFeedback` | `HapticFeedbackConstants`: CONFIRM, REJECT, CLOCK_TICK, LONG_PRESS, GESTURE_START/END… |\n| Когда | Переключение, выбор в пикере, успех или ошибка, «защёлкивание» шита на detent | Подтверждение, отказ, долгое нажатие, шаги жеста |\n\nХаптика — **подтверждение действия**, а не украшение. Не вибрируйте на каждый тап.\n\n### Состояния\n\n- **M3: state layers** — полупрозрачный слой цвета контента поверх элемента: hover ~8%, focus и pressed ~10%, dragged ~16%. Плюс **ripple** — волна от точки касания. В Expressive кнопки ещё и **меняют форму** при нажатии.\n- **iOS:** подсветка (highlight) при нажатии, у Liquid Glass — мягкое свечение и «упругость» под пальцем. Отключённые элементы приглушены."
+      ],
+      "figma": "- **Smart Animate** в Figma поддерживает **Spring**-кривые (Gentle, Quick, Bouncy, Slow и custom). Это ближайший аналог платформенной физики. Задавайте анимации в прототипе пружинами, а не ease-in-out.\n- В спецификации motion указывайте: **что анимируется, тип пружины или кривой, длительность (или жёсткость и демпфирование), что при Reduce Motion**.\n- Хаптику в Figma не показать — добавляйте её **аннотацией** на макете: «haptic: selection».",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Кривые и пружины",
+          "description": "Переключатель анимируется выбранной кривой. Пружины в CSS можно приблизить функцией linear() — так делают в вебе.",
+          "height": 240,
+          "html": "<div class=\"wrap\"><div class=\"track\"><div class=\"knob\"></div></div><div class=\"chip\">Сохранено ✓</div></div>",
+          "css": ".wrap{display:flex;flex-direction:column;gap:28px;align-items:center;justify-content:center;height:100vh;font-family:system-ui;background:#f4f4f0}\n.track{width:220px;height:44px;border-radius:22px;background:#d0d5e8;position:relative}\n.knob{position:absolute;top:4px;left:4px;width:36px;height:36px;border-radius:50%;background:#3b5bdb;animation:slide calc(var(--d) * 1ms) var(--ease) infinite alternate}\n.chip{padding:10px 18px;border-radius:999px;background:#1d1b20;color:#fff;font-size:14px;animation:pop calc(var(--d) * 1ms) var(--ease) infinite alternate}\n@keyframes slide{to{left:180px}}\n@keyframes pop{from{transform:translateY(16px) scale(.9);opacity:0}to{transform:none;opacity:1}}\n@media (prefers-reduced-motion: reduce){.knob,.chip{animation:none}}",
+          "code": ".knob {\n  animation: slide var(--d)ms var(--ease) infinite alternate;\n}\n@media (prefers-reduced-motion: reduce) {\n  .knob { animation: none; }\n}",
+          "controls": [
+            {
+              "type": "select",
+              "var": "--ease",
+              "label": "Кривая",
+              "value": "cubic-bezier(0.2, 0, 0, 1)",
+              "options": [
+                {
+                  "label": "linear — механично",
+                  "value": "linear"
+                },
+                {
+                  "label": "M3 standard — cubic-bezier(0.2, 0, 0, 1)",
+                  "value": "cubic-bezier(0.2, 0, 0, 1)"
+                },
+                {
+                  "label": "M3 emphasized decelerate",
+                  "value": "cubic-bezier(0.05, 0.7, 0.1, 1)"
+                },
+                {
+                  "label": "Пружина с отскоком (spatial / expressive)",
+                  "value": "linear(0, 0.18 4%, 0.6 10%, 1.02 18%, 1.12 24%, 1.08 30%, 0.99 40%, 0.98 48%, 1.005 60%, 1)"
+                },
+                {
+                  "label": "Мягкая пружина (effects / standard)",
+                  "value": "linear(0, 0.25 8%, 0.6 18%, 0.85 30%, 0.96 45%, 1)"
+                }
+              ]
+            },
+            {
+              "type": "range",
+              "var": "--d",
+              "label": "Длительность (мс)",
+              "min": 100,
+              "max": 1500,
+              "step": 50,
+              "value": 500
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Какие два типа пружин в motion-системе M3 Expressive?",
+          "options": [
+            "fast и slow",
+            "spatial (движение, размер) и effects (цвет, прозрачность)",
+            "in и out",
+            "linear и ease"
+          ],
+          "correct": 1,
+          "explain": "Spatial-пружины могут перелетать цель, effects — нет. Цвет, который «перелетает», выглядел бы странно."
+        },
+        {
+          "q": "Пользователь включил **Reduce Motion**. Что должен сделать интерфейс?",
+          "options": [
+            "Ничего",
+            "Заменить движение и масштаб на простое появление (fade) или убрать анимацию",
+            "Ускорить анимации вдвое",
+            "Показать предупреждение"
+          ],
+          "correct": 1,
+          "explain": "Резкое движение у части людей вызывает головокружение. Переходы остаются, но без перемещения и параллакса."
+        },
+        {
+          "q": "Когда уместна **хаптика**?",
+          "options": [
+            "На каждый тап",
+            "Для подтверждения значимых действий: переключение, успех, ошибка, «защёлкивание»",
+            "Только в играх",
+            "Никогда"
+          ],
+          "correct": 1,
+          "explain": "Хаптика — это сигнал. Если вибрировать постоянно, сигнал теряет смысл."
+        },
+        {
+          "q": "Что такое **state layer** в M3?",
+          "options": [
+            "Слой в Figma",
+            "Полупрозрачный слой поверх элемента, который показывает hover, focus и pressed",
+            "Тень",
+            "Анимация загрузки"
+          ],
+          "correct": 1,
+          "explain": "Состояние отображается наложением цвета контента с небольшой прозрачностью — одинаково для всех компонентов."
+        }
+      ],
+      "practice": "- Опишите **motion-токены** продукта: 3–4 пружины или кривые и шкала длительностей. Тогда разработчики не изобретают каждый раз свою анимацию.\n- В прототипах показывайте **прерывание**: что будет, если пользователь начал свайп и передумал.\n- Хаптику и звуки документируйте **таблицей событий**: событие → тип отклика на iOS → тип на Android.",
+      "sources": [
+        {
+          "label": "Apple HIG — Motion",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/motion"
+        },
+        {
+          "label": "Apple HIG — Playing haptics",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/playing-haptics"
+        },
+        {
+          "label": "Material 3 — Motion",
+          "url": "https://m3.material.io/styles/motion/overview"
+        },
+        {
+          "label": "Material 3 — States",
+          "url": "https://m3.material.io/foundations/interaction/states/overview"
+        }
+      ]
+    },
+    {
+      "id": "l9-a11y",
+      "title": "Доступность на обеих платформах",
+      "summary": "VoiceOver и TalkBack, крупный текст, контраст, управление без касаний. Что проверить в каждом макете.",
+      "duration": "60–80 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "html": 1
+      },
+      "theory": [
+        "### Ассистивные технологии\n\n| Что | iOS | Android | Веб |\n|---|---|---|---|\n| Скринридер | **VoiceOver** | **TalkBack** | VoiceOver, NVDA, JAWS |\n| Подпись элемента | `accessibilityLabel` | `contentDescription` / semantics | `aria-label`, `alt` |\n| Роль элемента | traits (button, header…) | role в semantics | теги и `role` |\n| Крупный текст | Dynamic Type до AX5 | Font size до 200% | rem и зум браузера |\n| Меньше движения | Reduce Motion | Remove animations | `prefers-reduced-motion` |\n| Контраст | Increase Contrast, Reduce Transparency | High contrast text, Contrast level | `prefers-contrast` |\n| Управление без касаний | Voice Control, Switch Control | Voice Access, Switch Access | клавиатура |",
+        "### Правила, общие для всех\n\n1. **Зоны нажатия:** 44pt на iOS, 48dp на Android.\n2. **Контраст:** 4.5:1 для текста, 3:1 для крупного текста и иконок.\n3. **Цвет — не единственный сигнал:** ошибка = цвет + текст + иконка.\n4. **У каждой иконки-кнопки есть подпись** — глагол действия: «Удалить», а не «корзина».\n5. **Логичный порядок фокуса:** скринридер читает сверху вниз, слева направо. Группируйте связанные элементы (картинка + название + цена = одна карточка).\n6. **Текст масштабируется**, интерфейс не ломается: строки переносятся, а не обрезаются.\n7. **Не только жесты:** у каждого свайп-действия есть альтернатива (кнопка или меню).\n\n### Особенности Liquid Glass\n\nПолупрозрачные панели могут терять контраст на пёстром фоне. Система сама уплотняет стекло при **Reduce Transparency** и **Increase Contrast**, но проверять это на реальных скриншотах — задача дизайнера."
+      ],
+      "figma": "- Используйте **аннотации доступности**: порядок чтения, подписи иконок, группировку и роли. Для этого есть киты в Figma Community, а в Dev Mode можно оставлять аннотации прямо на слоях.\n- Проверяйте контраст плагином **в обеих темах**, особенно текст на стекле и на фото.\n- Сделайте вариант экрана с **AX-размерами текста**: часто выясняется, что карточка в одну строку должна стать вертикальной.",
+      "task": {
+        "id": "platform-a11y",
+        "title": "Карточка, понятная скринридеру",
+        "brief": "Карточку трека в веб-версии приложения невозможно использовать со скринридером. Почините:\n\n1. Всем кнопкам-иконкам `button.icon` добавьте `aria-label` с названием **действия**.\n2. Обложке `img.cover` добавьте осмысленный `alt`.\n3. «Переключатель» загрузки сейчас — `<div class=\"toggle\">`. Замените его на `<button class=\"toggle\">` с `role=\"switch\"` и `aria-checked=\"false\"`.\n4. Подпись `.caption` задайте в **rem**, чтобы она масштабировалась вместе с настройками текста.",
+        "files": {
+          "html": "<article class=\"track\">\n  <img class=\"cover\" src=\"https://picsum.photos/seed/album/120/120\">\n  <div class=\"info\">\n    <h2>Северное сияние</h2>\n    <p class=\"caption\">Аурора · 3:42</p>\n  </div>\n  <div class=\"actions\">\n    <button class=\"icon\">♡</button>\n    <button class=\"icon\">⋯</button>\n    <button class=\"icon\">▶</button>\n  </div>\n  <div class=\"toggle\">Скачать</div>\n</article>",
+          "css": "body { font-family: system-ui; padding: 24px; background: #f2f2f7; }\n.track { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; background: white; padding: 12px; border-radius: 16px; max-width: 420px; }\n.cover { width: 64px; height: 64px; border-radius: 8px; }\nh2 { font-size: 17px; margin: 0; }\n.caption { font-size: 13px; color: #6d6d72; margin: 2px 0 0; }\n.actions { display: flex; }\n.icon { width: 44px; height: 44px; border: 0; background: none; font-size: 20px; color: #007aff; }\n.toggle { grid-column: 1 / -1; border: 1px solid #c6c6c8; border-radius: 22px; min-height: 44px; display: grid; place-items: center; background: white; font: inherit; color: #007aff; }\n"
+        },
+        "checks": [
+          {
+            "type": "attr",
+            "selector": "button.icon",
+            "attr": "aria-label",
+            "min": 3,
+            "all": true,
+            "label": "У всех иконок-кнопок есть aria-label",
+            "hint": "Каждой из трёх кнопок нужна подпись: «В избранное», «Ещё», «Воспроизвести»."
+          },
+          {
+            "type": "attr",
+            "selector": "img.cover",
+            "attr": "alt",
+            "min": 5,
+            "label": "У обложки есть alt",
+            "hint": "Опишите, что это: например, «Обложка альбома Аурора»."
+          },
+          {
+            "type": "exists",
+            "selector": "button.toggle[role=\"switch\"]",
+            "label": "Переключатель — button с role=\"switch\"",
+            "hint": "Замените div на button и добавьте атрибут role со значением switch."
+          },
+          {
+            "type": "attr",
+            "selector": ".toggle",
+            "attr": "aria-checked",
+            "oneOf": [
+              "true",
+              "false"
+            ],
+            "label": "У переключателя есть aria-checked",
+            "hint": "Скринридер должен знать, включён ли переключатель: aria-checked=\"false\"."
+          },
+          {
+            "type": "notExists",
+            "selector": "div.toggle",
+            "label": "div-переключателя больше нет",
+            "hint": "Проверьте, что заменили и открывающий, и закрывающий тег."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.caption\\s*\\{[^}]*font-size\\s*:\\s*[\\d.]+rem",
+            "label": "Размер подписи в rem",
+            "hint": "13px ÷ 16 = 0.8125rem."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Какая подпись лучше для кнопки-иконки с сердечком?",
+          "options": [
+            "«Сердце»",
+            "«Иконка»",
+            "«Добавить в избранное»",
+            "Без подписи"
+          ],
+          "correct": 2,
+          "explain": "Подпись описывает действие, а не картинку. Скринридер сам добавит «кнопка»."
+        },
+        {
+          "q": "Как называются скринридеры iOS и Android?",
+          "options": [
+            "Siri и Assistant",
+            "VoiceOver и TalkBack",
+            "Narrator и Orca",
+            "Voice Control и Voice Access"
+          ],
+          "correct": 1,
+          "explain": "VoiceOver — Apple, TalkBack — Android. Voice Control и Voice Access — это голосовое управление, а не чтение экрана."
+        },
+        {
+          "q": "Удаление письма — только свайпом влево. Что не так?",
+          "options": [
+            "Всё хорошо",
+            "Нет альтернативы жесту — людям с моторными нарушениями и пользователям скринридеров нужна кнопка или пункт меню",
+            "Свайп должен быть вправо",
+            "Нужна анимация"
+          ],
+          "correct": 1,
+          "explain": "У каждого жеста должна быть видимая альтернатива. VoiceOver и TalkBack предлагают свайп-действия через меню действий, но только если разработчик их объявил."
+        },
+        {
+          "q": "Что делает система с Liquid Glass при включённом **Reduce Transparency**?",
+          "options": [
+            "Ничего",
+            "Делает стекло более плотным и непрозрачным, чтобы повысить читаемость",
+            "Выключает тёмную тему",
+            "Убирает tab bar"
+          ],
+          "correct": 1,
+          "explain": "Настройки доступности меняют материалы. Макет должен хорошо выглядеть и в этом режиме."
+        }
+      ],
+      "practice": "- Раз в спринт проходите ключевой сценарий **со включённым VoiceOver или TalkBack**. 15 минут скажут больше любого чек-листа.\n- Аннотации доступности — **часть хендоффа**, как отступы и цвета. Без них разработчик угадывает подписи сам.\n- Доступность — **требование закона** во многих странах, в ЕС это European Accessibility Act. Это аргумент для приоритизации.",
+      "sources": [
+        {
+          "label": "Apple HIG — Accessibility",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/accessibility"
+        },
+        {
+          "label": "Apple HIG — VoiceOver",
+          "url": "https://developer.apple.com/design/human-interface-guidelines/voiceover"
+        },
+        {
+          "label": "Material 3 — Assistive technology",
+          "url": "https://m3.material.io/foundations/overview/assistive-technology"
+        },
+        {
+          "label": "Android — Accessibility",
+          "url": "https://developer.android.com/guide/topics/ui/accessibility"
+        }
+      ]
+    },
+    {
+      "id": "l10-code",
+      "title": "Как это живёт в коде: SwiftUI, Compose и Material Web",
+      "summary": "Обзор того, что видит разработчик, и итоговый чек-лист проверки макета на соответствие гайдлайнам.",
+      "duration": "60–80 мин",
+      "version": "Описано по Apple Human Interface Guidelines для iOS / iPadOS 27 (дизайн-язык Liquid Glass, последнее обновление HIG — 6 ноября 2026) и Material Design 3 Expressive (обновления Google I/O, 19 мая 2026; Compose Material 3 1.5.0 — 18 ноября 2026). Сверено с developer.apple.com/design и m3.material.io 20 ноября 2026 года. Гайдлайны обновляются: точные цифры перепроверяйте по ссылкам в конце урока.",
+      "skills": {
+        "platforms": 3,
+        "react": 1
+      },
+      "theory": [
+        "### SwiftUI (iOS)\n\n**Декларативный** фреймворк Apple: описываем, *что* показать, а система сама рисует нативные компоненты со стеклом, хаптикой и доступностью.\n\n~~~swift\nTabView {\n  Tab(\"Подписки\", systemImage: \"list.bullet\") {\n    NavigationStack {\n      List(subscriptions) { sub in\n        LabeledContent(sub.name, value: sub.price)\n      }\n      .navigationTitle(\"Подписки\")          // Large Title\n      .toolbar { Button(\"Добавить\", systemImage: \"plus\") { add() } }\n    }\n  }\n  Tab(\"Поиск\", systemImage: \"magnifyingglass\", role: .search) { SearchView() }\n}\n.sheet(isPresented: $showFilters) {\n  FiltersView().presentationDetents([.medium, .large])\n}\n~~~\n\nОбратите внимание: `systemImage` — имя SF Symbol, `.navigationTitle` — Large Title, `presentationDetents` — высоты шита. Названия из HIG **напрямую** живут в коде. Стиль кнопки Liquid Glass — `.buttonStyle(.glassProminent)`.",
+        "### Jetpack Compose (Android)\n\nТоже декларативный. Компоненты Material 3 — функции с параметрами:\n\n~~~kotlin\nScaffold(\n  topBar = { TopAppBar(title = { Text(\"Подписки\") }) },\n  floatingActionButton = {\n    FloatingActionButton(onClick = { add() }) {\n      Icon(Icons.Default.Add, contentDescription = \"Добавить\")\n    }\n  },\n  bottomBar = {\n    NavigationBar {\n      tabs.forEach { tab ->\n        NavigationBarItem(\n          selected = tab == current,\n          onClick = { current = tab },\n          icon = { Icon(tab.icon, contentDescription = null) },\n          label = { Text(tab.label) },\n        )\n      }\n    }\n  },\n) { padding -> SubscriptionList(Modifier.padding(padding)) }\n\nText(\"Музыка\", style = MaterialTheme.typography.bodyLarge,\n     color = MaterialTheme.colorScheme.onSurface)\n~~~\n\n`MaterialTheme.colorScheme.primary` — цветовая роль, `typography.bodyLarge` — стиль из шкалы, `contentDescription` — подпись для TalkBack. Compose Material 3 **1.5.0** стал стабильным 18 ноября 2026 года, с компонентами Expressive.",
+        "### Material Web\n\n**Material Web** (`@material/web`) — веб-компоненты M3:\n\n~~~html\n<md-filled-button>Оплатить</md-filled-button>\n<md-outlined-text-field label=\"Имя на карте\"></md-outlined-text-field>\n~~~\n\nВажно: на конец 2026 года репозиторий в **режиме поддержки** («maintenance mode pending new maintainers»). Для новых веб-проектов часто берут **токены M3** (Material Theme Builder экспортирует их в CSS) и собственные компоненты или другую библиотеку.\n\n### Что это значит для дизайнера\n\n- Чем **ближе макет к системным компонентам**, тем дешевле разработка и тем лучше доступность.\n- Кастомный компонент = написать его с нуля, плюс доступность, плюс анимации, плюс тёмная тема. Это ощутимо дольше.\n- Говорите на языке кода: «здесь `.sheet` с medium detent», «это `NavigationBar`, а не bottom app bar»."
+      ],
+      "figma": "- **Code Connect** в Figma Dev Mode связывает компонент из библиотеки с реальным кодом (SwiftUI, Compose, React). Разработчик видит готовый сниппет вместо CSS-свойств.\n- Material Theme Builder → **Export → Jetpack Compose (Theme.kt)** или **Web (CSS)**: тема из Figma за один клик.\n- Попросите разработчика показать **SwiftUI Preview** или **Compose Preview**: это «Figma внутри кода», где видно компонент во всех состояниях.",
+      "widgets": [
+        {
+          "type": "checklist",
+          "id": "platform-guidelines",
+          "title": "Чек-лист «Проверь свой макет на соответствие гайдлайнам»",
+          "description": "Пройдитесь по своему макету. Отметки сохраняются в браузере, а результат можно скачать как Markdown и приложить к задаче.",
+          "groups": [
+            {
+              "title": "Размеры и раскладка",
+              "items": [
+                "Все интерактивные элементы — от 44×44pt (iOS) и 48×48dp (Android)",
+                "Текст и кнопки внутри safe area; фоны можно растягивать под край (edge-to-edge)",
+                "Проверена горизонтальная ориентация и большой экран (iPad, складные устройства, rail / sidebar)",
+                "Отступы взяты из шкалы, а не случайные значения"
+              ]
+            },
+            {
+              "title": "Навигация",
+              "items": [
+                "iOS: tab bar до 5 вкладок; Android: navigation bar на 3–5 разделов",
+                "iOS: кнопка «назад» в navigation bar и работает свайп от края; Android: стрелка вверх + системный жест «назад»",
+                "Модальные окна выбраны по задаче: alert / dialog для решения, sheet / bottom sheet для короткой задачи",
+                "Нет чужих паттернов: FAB в iOS, iOS-кнопка «‹ Назад» в Android, «гамбургер» как основная навигация"
+              ]
+            },
+            {
+              "title": "Компоненты",
+              "items": [
+                "Используются системные компоненты из официальных UI-китов (iOS 27, M3 Expressive)",
+                "Названия вариантов соответствуют платформе (Prominent / Bordered; Filled / Tonal / Outlined)",
+                "Для всех компонентов есть состояния: default, pressed, focus, disabled (и hover для iPad и веба)"
+              ]
+            },
+            {
+              "title": "Типографика",
+              "items": [
+                "Стили соответствуют Dynamic Type (iOS) и шкале M3 (Android), а не произвольные размеры",
+                "Макет проверен на крупном тексте: iOS AX3+ и Android 200%",
+                "Длинные строки переносятся, а не обрезаются"
+              ]
+            },
+            {
+              "title": "Цвет и темы",
+              "items": [
+                "Цвета заданы ролями (semantic colors / color roles), а не hex",
+                "Есть тёмная тема, контраст проверен в обеих темах",
+                "Контраст текста от 4.5:1, иконок и границ от 3:1, в том числе на стекле и на фото",
+                "iOS: макет выглядит нормально с Reduce Transparency и Increase Contrast"
+              ]
+            },
+            {
+              "title": "Иконки, motion, доступность",
+              "items": [
+                "iOS — SF Symbols, Android и веб — Material Symbols или своя библиотека (SF Symbols вне Apple не используются)",
+                "У каждой иконки-кнопки есть подпись для VoiceOver и TalkBack",
+                "Анимации описаны (пружина или кривая) и есть вариант для Reduce Motion",
+                "У жестов есть видимая альтернатива; хаптика описана для ключевых событий"
+              ]
+            }
+          ]
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Что в SwiftUI означает ^^systemImage: \"magnifyingglass\"^^?",
+          "options": [
+            "Путь к PNG",
+            "Имя символа из SF Symbols",
+            "Название шрифта",
+            "Цвет"
+          ],
+          "correct": 1,
+          "explain": "Имена SF Symbols — те же, что в приложении SF Symbols. Поэтому их удобно указывать в макете."
+        },
+        {
+          "q": "Как в Compose обратиться к цветовой роли primary?",
+          "options": [
+            "Color.primary()",
+            "MaterialTheme.colorScheme.primary",
+            "#6750a4",
+            "R.color.purple"
+          ],
+          "correct": 1,
+          "explain": "colorScheme хранит все роли M3. Тема переключается целиком, вместе с dynamic color."
+        },
+        {
+          "q": "**Найди нарушение гайдлайна:** в макете Android-приложения основная навигация — «гамбургер» с drawer, хотя разделов всего 4.",
+          "options": [
+            "Всё хорошо",
+            "Для 3–5 разделов на телефоне — navigation bar; drawer в M3 Expressive не рекомендуется",
+            "Нужно 6 разделов",
+            "Нужен tab bar iOS"
+          ],
+          "correct": 1,
+          "explain": "Navigation bar держит разделы на виду и под большим пальцем. Скрытое меню снижает их использование."
+        },
+        {
+          "q": "В каком состоянии **Material Web** на конец 2026 года?",
+          "options": [
+            "Активно развивается и рекомендуется для всех проектов",
+            "В режиме поддержки (maintenance mode)",
+            "Удалён",
+            "Только для iOS"
+          ],
+          "correct": 1,
+          "explain": "В README указано, что проект в maintenance mode в ожидании новых мейнтейнеров. Учитывайте это при выборе стека."
+        }
+      ],
+      "practice": "- Перед хендоффом прогоняйте макет по **чек-листу выше** и прикладывайте скачанный .md к задаче. Ревью станет быстрее.\n- Попросите iOS- и Android-разработчиков показать, **как выглядит ваш экран в коде**. Даже 20 минут чтения SwiftUI или Compose вместе с разработчиком дают огромный рост в понимании.\n- Это и есть путь к **дизайн-инженеру**: вы проектируете так, что макет легко переводится в системные компоненты, и можете сами собрать прототип.",
+      "sources": [
+        {
+          "label": "SwiftUI",
+          "url": "https://developer.apple.com/xcode/swiftui/"
+        },
+        {
+          "label": "Jetpack Compose — Material 3",
+          "url": "https://developer.android.com/develop/ui/compose/designsystems/material3"
+        },
+        {
+          "label": "Material Web (GitHub)",
+          "url": "https://github.com/material-components/material-web"
+        },
+        {
+          "label": "Material Theme Builder",
+          "url": "https://material-foundation.github.io/material-theme-builder/"
+        }
+      ]
+    }
+  ]
+}

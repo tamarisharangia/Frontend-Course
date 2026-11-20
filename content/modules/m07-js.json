@@ -1,0 +1,50 @@
+{
+  "id": "m07-js",
+  "order": 7,
+  "num": "07",
+  "title": "Основы JavaScript",
+  "summary": "Переменные, функции, события и DOM. Как описывать состояния UI: загрузка, ошибка, пусто, успех.",
+  "skills": [
+    "js"
+  ],
+  "lessons": [
+    {
+      "id": "l1-basics",
+      "title": "Переменные, типы и функции",
+      "summary": "Минимум синтаксиса, чтобы читать чужой код.",
+      "stub": true,
+      "skills": {
+        "js": 3
+      }
+    },
+    {
+      "id": "l2-dom",
+      "title": "DOM и события",
+      "summary": "querySelector, addEventListener, classList. Оживляем аккордеон.",
+      "stub": true,
+      "skills": {
+        "js": 3,
+        "html": 1
+      }
+    },
+    {
+      "id": "l3-state",
+      "title": "Состояния интерфейса",
+      "summary": "Состояние как данные: idle, loading, error, success. Проектируем все состояния экрана.",
+      "stub": true,
+      "skills": {
+        "js": 3
+      }
+    },
+    {
+      "id": "l4-data",
+      "title": "Данные и fetch",
+      "summary": "Как интерфейс получает данные с сервера и что видит пользователь, пока ждёт.",
+      "stub": true,
+      "skills": {
+        "js": 2
+      }
+    }
+  ],
+  "status": "stub"
+}

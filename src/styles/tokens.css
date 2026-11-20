@@ -1,0 +1,204 @@
+/* ==========================================================================
+   ДИЗАЙН-ТОКЕНЫ
+   Всё оформление сайта берётся отсюда. Три слоя — как коллекции в Figma Variables:
+
+   1. ПРИМИТИВЫ (--p-*)  — сырые значения: палитра, шкала размеров.
+      Аналог коллекции «Primitives» в Figma. В компонентах их НЕ используем.
+   2. СЕМАНТИКА (--color-*, --space-*, --font-*) — роли: «фон», «текст», «акцент».
+      Аналог коллекции «Semantic» с режимами Light / Dark.
+   3. КОМПОНЕНТНЫЕ (--button-*, --card-*) — настройки конкретных компонентов.
+
+   Тёмная тема переопределяет только слой семантики — компоненты об этом даже
+   не знают. Это и есть главная сила токенов.
+   ========================================================================== */
+
+:root {
+  /* ---------- 1. Примитивы: цвет ---------- */
+  --p-gray-0: #ffffff;
+  --p-gray-50: #f7f6f3;
+  --p-gray-100: #efeee9;
+  --p-gray-200: #e2e0d9;
+  --p-gray-300: #cbc8bf;
+  --p-gray-500: #8a877e;
+  --p-gray-600: #6a675f;
+  --p-gray-700: #4a4842;
+  --p-gray-800: #2b2a27;
+  --p-gray-850: #201f1d;
+  --p-gray-900: #181816;
+  --p-gray-950: #111110;
+
+  --p-blue-100: #e4e9fb;
+  --p-blue-300: #a5b4f5;
+  --p-blue-400: #7c8ff0;
+  --p-blue-500: #4c6ef5;
+  --p-blue-600: #3b5bdb;
+  --p-blue-700: #2f4ac0;
+  --p-blue-900: #1c2552;
+
+  --p-green-100: #e3f4e8;
+  --p-green-400: #5cc07a;
+  --p-green-600: #2b8a49;
+  --p-green-900: #173a24;
+
+  --p-amber-100: #fbf0d9;
+  --p-amber-400: #f0b44c;
+  --p-amber-700: #94600b;
+  --p-amber-900: #3d2c0c;
+
+  --p-red-100: #fbe4e2;
+  --p-red-400: #f07a6e;
+  --p-red-600: #c63a2d;
+  --p-red-900: #45201c;
+
+  --p-violet-500: #8b5cf6;
+  --p-teal-500: #14b8a6;
+
+  /* ---------- 1. Примитивы: размеры (шаг 4px) ---------- */
+  --p-size-0: 0;
+  --p-size-1: 4px;
+  --p-size-2: 8px;
+  --p-size-3: 12px;
+  --p-size-4: 16px;
+  --p-size-5: 20px;
+  --p-size-6: 24px;
+  --p-size-8: 32px;
+  --p-size-10: 40px;
+  --p-size-12: 48px;
+  --p-size-16: 64px;
+
+  /* ---------- 2. Семантика: цвет (светлая тема по умолчанию) ---------- */
+  --color-bg: var(--p-gray-50);           /* фон страницы */
+  --color-surface: var(--p-gray-0);        /* карточки, панели */
+  --color-surface-2: var(--p-gray-100);    /* вложенные блоки, ховер */
+  --color-border: var(--p-gray-200);
+  --color-border-strong: var(--p-gray-300);
+  --color-text: var(--p-gray-900);
+  --color-text-muted: var(--p-gray-600);
+  --color-text-subtle: var(--p-gray-500);
+  --color-accent: var(--p-blue-600);
+  --color-accent-hover: var(--p-blue-700);
+  --color-accent-soft: var(--p-blue-100);
+  --color-on-accent: var(--p-gray-0);
+  --color-success: var(--p-green-600);
+  --color-success-soft: var(--p-green-100);
+  --color-warning: var(--p-amber-700);
+  --color-warning-soft: var(--p-amber-100);
+  --color-danger: var(--p-red-600);
+  --color-danger-soft: var(--p-red-100);
+  --color-figma: var(--p-violet-500);      /* блоки «Как это в Figma» */
+  --color-figma-soft: color-mix(in srgb, var(--p-violet-500) 12%, transparent);
+  --color-work: var(--p-teal-500);         /* блоки «Применение в работе» */
+  --color-work-soft: color-mix(in srgb, var(--p-teal-500) 12%, transparent);
+  --color-focus: var(--p-blue-500);
+  --color-code-bg: var(--p-gray-100);
+
+  /* ---------- 2. Семантика: отступы ---------- */
+  --space-3xs: var(--p-size-1);   /* 4  */
+  --space-2xs: var(--p-size-2);   /* 8  */
+  --space-xs: var(--p-size-3);    /* 12 */
+  --space-s: var(--p-size-4);     /* 16 */
+  --space-m: var(--p-size-6);     /* 24 */
+  --space-l: var(--p-size-8);     /* 32 */
+  --space-xl: var(--p-size-12);   /* 48 */
+  --space-2xl: var(--p-size-16);  /* 64 */
+
+  /* ---------- 2. Семантика: типографика ---------- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Шкала с clamp(): размер плавно растёт от телефона к десктопу (fluid type) */
+  --font-size-xs: 0.75rem;                                   /* 12 */
+  --font-size-s: 0.875rem;                                   /* 14 */
+  --font-size-m: 1rem;                                       /* 16 */
+  --font-size-l: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);  /* 17–19 */
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);    /* 20–24 */
+  --font-size-2xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);       /* 24–32 */
+  --font-size-3xl: clamp(1.875rem, 1.5rem + 1.6vw, 2.75rem); /* 30–44 */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.6;
+
+  /* ---------- 2. Семантика: форма, тени, движение ---------- */
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 16px;
+  --radius-full: 999px;
+  --shadow-s: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-m: 0 4px 16px rgb(0 0 0 / 0.07);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---------- Раскладка ---------- */
+  --layout-sidebar: 264px;
+  --layout-content: 760px;
+  --layout-wide: 1120px;
+  --tap-target: 44px; /* минимальная зона нажатия */
+
+  /* ---------- 3. Компонентные токены ---------- */
+  --button-height: 40px;
+  --button-padding-x: var(--space-s);
+  --button-radius: var(--radius-m);
+  --card-padding: var(--space-m);
+  --card-radius: var(--radius-l);
+  --card-bg: var(--color-surface);
+  --card-border: var(--color-border);
+
+  color-scheme: light;
+}
+
+/* ---------- Тёмная тема: переопределяем только семантику ---------- */
+/* Вариант 1: пользователь выбрал «Как в системе», а система тёмная */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: var(--p-gray-950);
+    --color-surface: var(--p-gray-900);
+    --color-surface-2: var(--p-gray-850);
+    --color-border: var(--p-gray-800);
+    --color-border-strong: var(--p-gray-700);
+    --color-text: var(--p-gray-100);
+    --color-text-muted: var(--p-gray-300);
+    --color-text-subtle: var(--p-gray-500);
+    --color-accent: var(--p-blue-400);
+    --color-accent-hover: var(--p-blue-300);
+    --color-accent-soft: var(--p-blue-900);
+    --color-on-accent: var(--p-gray-950);
+    --color-success: var(--p-green-400);
+    --color-success-soft: var(--p-green-900);
+    --color-warning: var(--p-amber-400);
+    --color-warning-soft: var(--p-amber-900);
+    --color-danger: var(--p-red-400);
+    --color-danger-soft: var(--p-red-900);
+    --color-code-bg: var(--p-gray-850);
+    --shadow-s: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-m: 0 4px 16px rgb(0 0 0 / 0.4);
+    color-scheme: dark;
+  }
+}
+/* Вариант 2: пользователь явно выбрал тёмную тему переключателем */
+:root[data-theme='dark'] {
+  --color-bg: var(--p-gray-950);
+  --color-surface: var(--p-gray-900);
+  --color-surface-2: var(--p-gray-850);
+  --color-border: var(--p-gray-800);
+  --color-border-strong: var(--p-gray-700);
+  --color-text: var(--p-gray-100);
+  --color-text-muted: var(--p-gray-300);
+  --color-text-subtle: var(--p-gray-500);
+  --color-accent: var(--p-blue-400);
+  --color-accent-hover: var(--p-blue-300);
+  --color-accent-soft: var(--p-blue-900);
+  --color-on-accent: var(--p-gray-950);
+  --color-success: var(--p-green-400);
+  --color-success-soft: var(--p-green-900);
+  --color-warning: var(--p-amber-400);
+  --color-warning-soft: var(--p-amber-900);
+  --color-danger: var(--p-red-400);
+  --color-danger-soft: var(--p-red-900);
+  --color-code-bg: var(--p-gray-850);
+  --shadow-s: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-m: 0 4px 16px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}

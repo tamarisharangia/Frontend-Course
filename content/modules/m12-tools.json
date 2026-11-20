@@ -1,0 +1,50 @@
+{
+  "id": "m12-tools",
+  "order": 12,
+  "num": "12",
+  "title": "Git, деплой и прототипирование с AI",
+  "summary": "Git без страха, деплой на Vercel и прототипы с помощью AI-ассистентов.",
+  "skills": [
+    "tools"
+  ],
+  "lessons": [
+    {
+      "id": "l1-git",
+      "title": "Git: история версий",
+      "summary": "commit, branch, pull request — как версии и ветки в Figma.",
+      "stub": true,
+      "skills": {
+        "tools": 3
+      }
+    },
+    {
+      "id": "l2-github",
+      "title": "GitHub и код-ревью",
+      "summary": "Как читать PR и оставлять полезные комментарии к вёрстке.",
+      "stub": true,
+      "skills": {
+        "tools": 2
+      }
+    },
+    {
+      "id": "l3-deploy",
+      "title": "Деплой на Vercel",
+      "summary": "Публикуем этот же сайт. Preview-ссылки для каждого изменения.",
+      "stub": true,
+      "skills": {
+        "tools": 3
+      }
+    },
+    {
+      "id": "l4-ai",
+      "title": "Прототипирование с AI",
+      "summary": "Как ставить задачу AI-ассистенту, проверять результат и не терять контроль над кодом.",
+      "stub": true,
+      "skills": {
+        "tools": 3,
+        "react": 1
+      }
+    }
+  ],
+  "status": "stub"
+}

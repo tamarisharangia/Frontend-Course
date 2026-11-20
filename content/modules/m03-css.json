@@ -1,0 +1,701 @@
+{
+  "id": "m03-css",
+  "order": 3,
+  "num": "03",
+  "title": "Основы CSS",
+  "summary": "Box model, единицы измерения, типографика и цвет. Фундамент, на котором держится любая вёрстка.",
+  "status": "ready",
+  "skills": [
+    "layout",
+    "tokens",
+    "responsive"
+  ],
+  "lessons": [
+    {
+      "id": "l1-box-model",
+      "title": "Box model: каждый элемент — коробка",
+      "summary": "content, padding, border, margin и box-sizing. Почему карточка шириной 320 вдруг стала 370.",
+      "duration": "70–90 мин",
+      "skills": {
+        "layout": 3
+      },
+      "theory": [
+        "### Всё — прямоугольники\n\nДля браузера **любой** элемент — это прямоугольная коробка, даже круглая аватарка (у неё просто скруглены углы). Коробка состоит из четырёх слоёв, изнутри наружу:\n\n1. **content** — содержимое: текст, картинка;\n2. **padding** — внутренний отступ, «воздух» между содержимым и краем. Фон элемента заливает и его;\n3. **border** — рамка;\n4. **margin** — внешний отступ, расстояние до соседей. Он всегда прозрачный.\n\n~~~css\n.card {\n  width: 320px;\n  padding: 24px;          /* со всех сторон */\n  border: 1px solid #ddd;\n  margin-bottom: 16px;    /* только снизу */\n}\n~~~",
+        "### Запись сокращениями\n\n~~~css\npadding: 16px;              /* все 4 стороны */\npadding: 12px 24px;         /* верх-низ | лево-право */\npadding: 8px 16px 24px;     /* верх | лево-право | низ */\npadding: 8px 16px 24px 4px; /* по часовой: верх право низ лево */\n~~~\n\nЗапомнить порядок помогает часовая стрелка: начинаем сверху (12 часов) и идём вправо. С margin всё то же самое.",
+        "### Ловушка: box-sizing\n\nПо умолчанию `width` — это ширина только **content**. Padding и border **прибавляются** сверху:\n\n320 (width) + 24×2 (padding) + 1×2 (border) = **370px** на экране.\n\nЧтобы ширина означала ширину всей коробки, как в Figma, пишут:\n\n~~~css\n*, *::before, *::after { box-sizing: border-box; }\n~~~\n\nЭто первая строчка почти любого современного проекта. Теперь `width: 320px` — это ровно 320px вместе с padding и border.",
+        "### Схлопывание margin\n\nВертикальные margin соседних блоков **не складываются**, а «схлопываются»: побеждает больший. Если у абзаца `margin-bottom: 24px`, а у следующего `margin-top: 16px`, между ними будет 24px, а не 40.\n\nПоэтому многие команды договариваются задавать только нижний margin. А ещё лучше — использовать `gap` во flex и grid (модуль 4), где этой проблемы нет."
+      ],
+      "figma": "- **padding = Padding в Auto Layout.** Прямое соответствие, даже порядок значений тот же.\n- **margin — в Figma его нет.** Расстояние между элементами в Auto Layout задаётся через **Gap (spacing between items)**. В CSS у flex и grid тоже есть `gap`. Это ближайший аналог, и использовать его лучше, чем margin.\n- **box-sizing: border-box** — именно так Figma считает размер фрейма: ширина включает padding и обводку.\n- **Stroke** в Figma может быть inside, center или outside. CSS `border` — всегда «inside» при border-box. Обводку снаружи даёт `outline` или `box-shadow`.",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Box model на ползунках",
+          "description": "Оранжевое — margin, жёлтое — border, зелёное — padding, синее — content. Переключите box-sizing и следите за итоговой шириной.",
+          "height": 320,
+          "html": "<div class=\"wrap\"><div class=\"m\"><div class=\"box\">Контент</div></div><p class=\"info\" id=\"i\"></p></div><script>function u(){var b=document.querySelector(\".box\");document.getElementById(\"i\").textContent=\"Итоговая ширина на экране: \"+Math.round(b.getBoundingClientRect().width)+\"px\"}new MutationObserver(u).observe(document.documentElement,{attributes:true});setTimeout(u,50)</script>",
+          "css": ".wrap{padding:16px;font-family:system-ui}.m{display:inline-block;background:repeating-linear-gradient(45deg,#ffd8a8,#ffd8a8 6px,#ffe8cc 6px,#ffe8cc 12px)}.info{font-size:14px;color:#333}\n.box {\n  box-sizing: var(--bs);\n  width: var(--w);\n  padding: var(--p);\n  border: var(--b) solid #f59f00;\n  margin: var(--m);\n  background: #74c0fc;\n  background-clip: content-box;\n  box-shadow: inset 0 0 0 1000px #b2f2bb;\n}\n.box{box-shadow:none;background:linear-gradient(#74c0fc,#74c0fc) content-box,#b2f2bb;text-align:center;font-weight:600}",
+          "code": ".box {\n  box-sizing: var(--bs);\n  width: var(--w);\n  padding: var(--p);\n  border: var(--b) solid #f59f00;\n  margin: var(--m);\n}",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--w",
+              "label": "width",
+              "min": 80,
+              "max": 280,
+              "unit": "px",
+              "value": 200
+            },
+            {
+              "type": "range",
+              "var": "--p",
+              "label": "padding",
+              "min": 0,
+              "max": 48,
+              "unit": "px",
+              "value": 24
+            },
+            {
+              "type": "range",
+              "var": "--b",
+              "label": "border",
+              "min": 0,
+              "max": 16,
+              "unit": "px",
+              "value": 4
+            },
+            {
+              "type": "range",
+              "var": "--m",
+              "label": "margin",
+              "min": 0,
+              "max": 48,
+              "unit": "px",
+              "value": 16
+            },
+            {
+              "type": "select",
+              "var": "--bs",
+              "label": "box-sizing",
+              "value": "content-box",
+              "options": [
+                {
+                  "label": "content-box (по умолчанию)",
+                  "value": "content-box"
+                },
+                {
+                  "label": "border-box (как в Figma)",
+                  "value": "border-box"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "box-card",
+        "title": "Карточка ровно 320px",
+        "brief": "Сделайте две карточки-уведомления по макету:\n\n- ширина **на экране** ровно **320px** вместе с отступами и рамкой (подсказка: `box-sizing`);\n- внутренние отступы: **16px** сверху и снизу, **20px** слева и справа;\n- рамка **1px** сплошная (`solid`) любого цвета;\n- расстояние между карточками **12px** (через `margin-bottom`).",
+        "files": {
+          "html": "<div class=\"notice\">Файл «Онбординг v3» обновлён</div>\n<div class=\"notice\">Анна оставила комментарий</div>",
+          "css": "body { font-family: system-ui; padding: 24px; background: #f4f4f0; }\n\n.notice {\n  background: white;\n  border-radius: 12px;\n  /* ваш код */\n}\n"
+        },
+        "checks": [
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "box-sizing",
+            "equals": "border-box",
+            "label": "box-sizing: border-box",
+            "hint": "По умолчанию ширина не включает padding и рамку. Какое значение box-sizing это меняет?"
+          },
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "width",
+            "equals": "320px",
+            "label": "Ширина 320px",
+            "hint": "Задайте width. С border-box итоговая ширина совпадёт с ним."
+          },
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "padding-top",
+            "equals": "16px",
+            "label": "Отступ сверху 16px",
+            "hint": "Сокращённая запись из двух значений: «вертикаль горизонталь»."
+          },
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "padding-right",
+            "equals": "20px",
+            "label": "Отступ справа 20px",
+            "hint": "Второе значение в padding отвечает за левую и правую стороны."
+          },
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "border-top-width",
+            "equals": "1px",
+            "label": "Рамка 1px",
+            "hint": "Рамка задаётся тремя частями: толщина, стиль и цвет, например 1px solid #ddd."
+          },
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "border-top-style",
+            "equals": "solid",
+            "label": "Рамка сплошная",
+            "hint": "Без стиля (solid) рамка не нарисуется, даже если указана толщина."
+          },
+          {
+            "type": "style",
+            "selector": ".notice",
+            "prop": "margin-bottom",
+            "equals": "12px",
+            "label": "Расстояние между карточками 12px",
+            "hint": "Внешний отступ снизу — margin-bottom."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "У элемента ^^width: 200px; padding: 20px; border: 5px^^ и box-sizing по умолчанию. Какая ширина на экране?",
+          "options": [
+            "200px",
+            "225px",
+            "250px",
+            "240px"
+          ],
+          "correct": 2,
+          "explain": "200 + 20×2 + 5×2 = 250. С border-box было бы ровно 200."
+        },
+        {
+          "q": "Что из этого **закрашивается** фоном элемента?",
+          "options": [
+            "Только content",
+            "content и padding (и область под рамкой)",
+            "Margin",
+            "Всё, включая margin"
+          ],
+          "correct": 1,
+          "explain": "Фон заливает content и padding и уходит под рамку. Margin всегда прозрачный."
+        },
+        {
+          "q": "Что означает ^^padding: 8px 16px^^?",
+          "options": [
+            "8 сверху, 16 снизу",
+            "8 сверху и снизу, 16 слева и справа",
+            "8 слева, 16 справа",
+            "Ошибка"
+          ],
+          "correct": 1,
+          "explain": "Два значения означают «вертикаль, горизонталь»."
+        },
+        {
+          "q": "Какой аналог **Gap** из Auto Layout есть в CSS?",
+          "options": [
+            "margin",
+            "padding",
+            "gap во flex и grid",
+            "border-spacing"
+          ],
+          "correct": 2,
+          "explain": "gap — это расстояние между дочерними элементами. Подробно разберём его в модуле про Flexbox и Grid."
+        }
+      ],
+      "practice": "- В спецификации называйте отступы так же, как в CSS: «padding 16/20» означает 16 по вертикали и 20 по горизонтали. Разработчик поймёт сразу.\n- Когда «в вёрстке на 2px шире» — первым делом проверьте в DevTools **box-sizing** и рамку.\n- Проектируйте отступы **шкалой** (4, 8, 12, 16, 24, 32…). Тогда в коде они станут токенами `--space-*`, а не случайными 13px и 27px."
+    },
+    {
+      "id": "l2-units",
+      "title": "Единицы: px, rem, em, %, vw",
+      "summary": "Абсолютные и относительные единицы. Почему rem уважает настройки пользователя.",
+      "duration": "60–80 мин",
+      "skills": {
+        "layout": 2,
+        "responsive": 2
+      },
+      "theory": [
+        "### px — пиксель (CSS-пиксель)\n\n`px` — **не** физический пиксель экрана. На iPhone с плотностью @3x один CSS-пиксель — это 3×3 физических. Это та же идея, что **pt в iOS** и **dp в Android**: логическая единица, одинаковая на разных экранах. Поэтому 16px в макете — это 16px в CSS.\n\n### rem — относительно корня\n\n`1rem` = размер шрифта корневого элемента `<html>`. По умолчанию это **16px**.\n\n| rem | px (при корне 16px) |\n|---|---|\n| 0.75rem | 12px |\n| 1rem | 16px |\n| 1.5rem | 24px |\n| 2rem | 32px |\n\n**Почему это важно:** пользователь со слабым зрением может поставить в браузере крупный шрифт, например 20px. Всё в rem увеличится пропорционально, а всё в px останется мелким. Это как Dynamic Type в iOS.",
+        "### em — относительно родителя\n\n`1em` = размер шрифта **текущего** элемента (или родителя, если речь о самом font-size). Удобно для отступов, которые должны расти вместе с текстом:\n\n~~~css\n.btn { font-size: 14px; padding: 0.75em 1.5em; } /* 10.5px 21px */\n.btn-lg { font-size: 18px; }                      /* padding вырастет сам */\n~~~\n\nПодвох em в том, что он накапливается. Вложенный список с `font-size: 1.2em` на каждом уровне будет расти всё больше и больше.\n\n### % и единицы окна\n\n- `%` — процент от **родителя** (для width — от ширины родителя).\n- `vw` / `vh` — 1% ширины или высоты окна браузера. `100vh` — во всю высоту экрана.\n- `dvh` — «динамическая» высота: учитывает, что на телефоне адресная строка появляется и прячется. Для полноэкранных мобильных экранов используйте `100dvh`.\n- `ch` — ширина символа «0». `max-width: 65ch` ≈ 65 символов в строке (подробнее — в уроке о типографике).",
+        "### Что когда использовать\n\n| Задача | Единица |\n|---|---|\n| Размер шрифта | **rem** |\n| Отступы в компонентах | rem или px (по договорённости команды) |\n| Рамки, тонкие линии | **px** |\n| Ширина колонки внутри раскладки | **%** или fr (модуль 4) |\n| Полноэкранный блок | **dvh**, vw |\n| Ширина текста | **ch** |"
+      ],
+      "figma": "- **Figma работает в px**, но эти px — логические, как CSS px. Макет 16px = CSS 16px = 1rem.\n- **rem ≈ Dynamic Type / масштаб шрифта в Android**: интерфейс реагирует на настройки пользователя. В Figma этого не видно, поэтому проверяйте макет с крупным текстом отдельно.\n- **% ≈ Fill container**, а **фиксированный px ≈ Fixed width**. **Hug contents** — это поведение по умолчанию у многих элементов (`width: auto`, `fit-content`).",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Пользователь увеличил шрифт",
+          "description": "Ползунок имитирует настройку шрифта в браузере (размер корня html). Верхняя карточка в px не меняется, нижняя в rem растёт.",
+          "height": 320,
+          "html": "<div class=\"col\"><div class=\"card px\"><b>В пикселях</b><p>font-size: 16px; padding: 16px</p></div><div class=\"card rem\"><b>В rem</b><p>font-size: 1rem; padding: 1rem</p></div></div>",
+          "css": "html { font-size: var(--root); }\nbody{font-family:system-ui;padding:16px;background:#f4f4f0}.col{display:flex;flex-direction:column;gap:12px}.card{background:#fff;border-radius:12px}.card p{margin:4px 0 0;color:#666}\n.px  { font-size: 16px; padding: 16px; }\n.rem { font-size: 1rem; padding: 1rem; }",
+          "code": "html { font-size: var(--root); }\n\n.px  { font-size: 16px; padding: 16px; }\n.rem { font-size: 1rem; padding: 1rem; }",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--root",
+              "label": "Шрифт браузера (html)",
+              "min": 12,
+              "max": 28,
+              "unit": "px",
+              "value": 16
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "rem-units",
+        "title": "Переведите стили в rem",
+        "brief": "Карточка статьи свёрстана в px, поэтому не реагирует на настройки шрифта пользователя. Перепишите размеры **в rem** (корень 16px):\n\n- заголовок `.post h2`: 28px → в rem;\n- текст `.post p`: 16px → в rem;\n- `padding` у `.post`: 24px → в rem.\n\nИтоговые размеры должны остаться такими же, но в коде не должно быть `px` у этих трёх свойств.",
+        "files": {
+          "html": "<article class=\"post\">\n  <h2>Как мы перешли на токены</h2>\n  <p>История одного рефакторинга: от 47 оттенков серого к 9 семантическим цветам.</p>\n</article>",
+          "css": "body { font-family: system-ui; background: #f4f4f0; padding: 16px; }\n.post {\n  background: white;\n  border-radius: 12px;\n  padding: 24px;\n}\n.post h2 {\n  font-size: 28px;\n  margin: 0 0 8px;\n}\n.post p {\n  font-size: 16px;\n  margin: 0;\n  color: #555;\n}\n"
+        },
+        "checks": [
+          {
+            "type": "style",
+            "selector": ".post h2",
+            "prop": "font-size",
+            "equals": "28px",
+            "label": "Заголовок 28px на экране",
+            "hint": "28 ÷ 16 = ? Результат и есть значение в rem."
+          },
+          {
+            "type": "style",
+            "selector": ".post p",
+            "prop": "font-size",
+            "equals": "16px",
+            "label": "Текст 16px на экране",
+            "hint": "16px при корне 16px — это ровно 1rem."
+          },
+          {
+            "type": "style",
+            "selector": ".post",
+            "prop": "padding-top",
+            "equals": "24px",
+            "label": "Отступ 24px на экране",
+            "hint": "24 ÷ 16 = 1.5."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "font-size\\s*:\\s*\\d+px",
+            "not": true,
+            "label": "В font-size больше нет px",
+            "hint": "Где-то осталось font-size в пикселях. Замените его на rem."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.post\\s*\\{[^}]*padding\\s*:\\s*[\\d.]+rem",
+            "label": "padding карточки в rem",
+            "hint": "Отступ карточки тоже переведите в rem."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Корневой шрифт 16px. Сколько это — ^^1.25rem^^?",
+          "options": [
+            "12px",
+            "18px",
+            "20px",
+            "25px"
+          ],
+          "correct": 2,
+          "explain": "1.25 × 16 = 20px."
+        },
+        {
+          "q": "Почему размер шрифта лучше задавать в **rem**, а не в px?",
+          "options": [
+            "rem быстрее работает",
+            "rem масштабируется, если пользователь увеличил шрифт в настройках",
+            "px не поддерживается на телефонах",
+            "Разницы нет"
+          ],
+          "correct": 1,
+          "explain": "rem уважает настройки пользователя — это вопрос доступности."
+        },
+        {
+          "q": "Какая единица ближе всего к **pt в iOS** и **dp в Android**?",
+          "options": [
+            "Физический пиксель",
+            "CSS px",
+            "vw",
+            "%"
+          ],
+          "correct": 1,
+          "explain": "Все три — логические единицы, которые не зависят от плотности экрана."
+        },
+        {
+          "q": "Полноэкранный экран на телефоне «обрезается» под адресной строкой. Что поможет?",
+          "options": [
+            "height: 100%",
+            "height: 100dvh",
+            "height: 100px",
+            "height: auto"
+          ],
+          "correct": 1,
+          "explain": "dvh учитывает динамическую высоту окна на мобильных, когда адресная строка прячется и появляется."
+        }
+      ],
+      "practice": "- Записывайте шкалу шрифтов в спецификации **сразу в двух видах**: 14px / 0.875rem. Это снимает вопрос «а как перевести».\n- Проверяйте макеты с **увеличенным текстом** (200%): переносятся ли кнопки, не обрезаются ли заголовки. С rem-вёрсткой это реальный сценарий, а не теория.\n- В разговоре: «давайте тексты в rem, а рамки в px» — фраза, которая сразу показывает, что вы понимаете вёрстку."
+    },
+    {
+      "id": "l3-typography",
+      "title": "Типографика в CSS",
+      "summary": "font-family, вес, размер, line-height, letter-spacing и длина строки. Читаемый текст по правилам.",
+      "duration": "70–90 мин",
+      "skills": {
+        "layout": 1,
+        "tokens": 2
+      },
+      "theory": [
+        "### Основные свойства\n\n~~~css\n.text {\n  font-family: 'Inter', system-ui, sans-serif; /* шрифт и запасные */\n  font-size: 1rem;          /* размер */\n  font-weight: 400;         /* 100–900: 400 regular, 600 semibold, 700 bold */\n  line-height: 1.5;         /* интерлиньяж: множитель без единиц */\n  letter-spacing: -0.01em;  /* трекинг */\n  text-align: left;\n  text-transform: uppercase;\n}\n~~~\n\n**Запасные шрифты (fallback):** если Inter не загрузился, браузер возьмёт `system-ui` (системный шрифт: SF Pro на Apple, Roboto на Android, Segoe UI на Windows), а если и его нет, то любой `sans-serif`.",
+        "### line-height: пишите без единиц\n\n`line-height: 1.5` означает «полтора размера шрифта». Если шрифт 16px, высота строки 24px, а для 32px — 48px. Множитель **масштабируется** вместе с текстом.\n\nОриентиры:\n- основной текст: **1.4–1.6**;\n- заголовки: **1.1–1.25** (крупному тексту нужен меньший интерлиньяж);\n- кнопки и плотный UI: **1–1.25**.\n\n### Длина строки\n\nСамая удобная для чтения строка — **45–75 символов**. В CSS это задаётся одной строчкой:\n\n~~~css\narticle p { max-width: 65ch; }\n~~~",
+        "### Как подключить шрифт\n\n1. **Google Fonts**: строчка `<link>` в HTML или `@import` в CSS.\n2. **Свой файл**: правило `@font-face` с путём к `.woff2`.\n3. **Системный шрифт**: `font-family: system-ui` — ничего грузить не нужно, нативный вид на каждой платформе.\n\n**Вариативные шрифты** (Inter, Roboto Flex, SF Pro) содержат все начертания в одном файле. Вес можно задать любой, например `font-weight: 550`.\n\n### Полезные современные свойства\n\n- `text-wrap: balance` — выравнивает строки заголовка по длине, без «вдовы» из одного слова.\n- `text-wrap: pretty` — избегает одиноких слов в конце абзаца.\n- `font-variant-numeric: tabular-nums` — цифры одинаковой ширины. Нужны в таблицах, таймерах и ценах."
+      ],
+      "figma": "- **Line height в Figma** можно задать в px, % или Auto. В коде лучше **множитель без единиц**: 150% в Figma = `line-height: 1.5`.\n- **Letter spacing в Figma в %** соответствует **em** в CSS: −2% = `-0.02em`.\n- **Text styles** в библиотеке Figma = набор CSS-правил или токенов: `--font-size-l`, `--line-height-tight`. Смотрите их на странице «Токены сайта».\n- **Text resizing: Auto height** — так ведёт себя текст в вебе по умолчанию: ширина задана, высота растёт.",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Настройте читаемый абзац",
+          "description": "Попробуйте найти комфортное сочетание. Длинная строка с маленьким интерлиньяжем — самое тяжёлое для чтения.",
+          "height": 320,
+          "html": "<article><h2>Почему дизайнеру стоит знать CSS</h2><p>Когда вы понимаете, как браузер строит страницу, макеты становятся реалистичнее, а разговоры с разработчиками — короче. Вы начинаете проектировать системы правил, а не отдельные картинки, и замечаете проблемы ещё до того, как они попадут в продакшен.</p></article>",
+          "css": "body{font-family:system-ui;padding:20px;color:#222}h2{margin:0 0 12px;line-height:1.2;font-size:calc(var(--fs) * 1.5)}\np {\n  font-size: var(--fs);\n  line-height: var(--lh);\n  letter-spacing: var(--ls);\n  max-width: var(--mw);\n  font-weight: var(--fw);\n}",
+          "code": "p {\n  font-size: var(--fs);\n  line-height: var(--lh);\n  letter-spacing: var(--ls);\n  max-width: var(--mw);\n  font-weight: var(--fw);\n}",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--fs",
+              "label": "font-size",
+              "min": 12,
+              "max": 24,
+              "unit": "px",
+              "value": 17
+            },
+            {
+              "type": "range",
+              "var": "--lh",
+              "label": "line-height",
+              "min": 1,
+              "max": 2.2,
+              "step": 0.05,
+              "value": 1.55
+            },
+            {
+              "type": "range",
+              "var": "--ls",
+              "label": "letter-spacing",
+              "min": -0.05,
+              "max": 0.1,
+              "step": 0.005,
+              "unit": "em",
+              "value": 0
+            },
+            {
+              "type": "range",
+              "var": "--mw",
+              "label": "max-width",
+              "min": 20,
+              "max": 120,
+              "unit": "ch",
+              "value": 65
+            },
+            {
+              "type": "select",
+              "var": "--fw",
+              "label": "font-weight",
+              "value": "400",
+              "options": [
+                {
+                  "label": "300 Light",
+                  "value": "300"
+                },
+                {
+                  "label": "400 Regular",
+                  "value": "400"
+                },
+                {
+                  "label": "500 Medium",
+                  "value": "500"
+                },
+                {
+                  "label": "600 Semibold",
+                  "value": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "typography",
+        "title": "Типографика статьи",
+        "brief": "Оформите текст статьи по требованиям:\n\n- шрифт `article`: стек с `system-ui` и запасным `sans-serif` в конце;\n- абзацы `article p`: размер **18px**, межстрочный интервал **от 1.4 до 1.7** (множителем без единиц), ширина не больше **70 символов** (единица `ch`);\n- заголовок `article h1`: вес **700**, межстрочный интервал **не больше 1.25**.",
+        "files": {
+          "html": "<article>\n  <h1>Семь принципов спокойного интерфейса</h1>\n  <p>Спокойный интерфейс не кричит. Он показывает только то, что нужно сейчас, и уважает внимание человека. Типографика здесь играет главную роль: размер, ритм и длина строки решают, будет ли текст прочитан.</p>\n  <p>Начните с базового размера и интерлиньяжа — остальное выстроится вокруг них.</p>\n</article>",
+          "css": "body { padding: 24px; color: #222; }\n\narticle {\n\n}\n\narticle h1 {\n\n}\n\narticle p {\n\n}\n"
+        },
+        "checks": [
+          {
+            "type": "style",
+            "selector": "article",
+            "prop": "font-family",
+            "pattern": "system-ui.*sans-serif\\s*$",
+            "label": "Шрифт: system-ui … sans-serif",
+            "hint": "font-family перечисляет шрифты через запятую. Последним идёт общий запасной вариант."
+          },
+          {
+            "type": "style",
+            "selector": "article p",
+            "prop": "font-size",
+            "equals": "18px",
+            "label": "Абзацы 18px",
+            "hint": "Размер шрифта абзаца задаётся в правиле article p.",
+            "all": true
+          },
+          {
+            "type": "style",
+            "selector": "article p",
+            "prop": "line-height",
+            "min": 25.2,
+            "max": 30.6,
+            "label": "Интерлиньяж абзацев 1.4–1.7",
+            "hint": "Для текста 18px это 25–31px. Запишите множителем, например 1.5.",
+            "all": true
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "article\\s+p\\s*\\{[^}]*line-height\\s*:\\s*[\\d.]+\\s*;",
+            "label": "line-height записан без единиц",
+            "hint": "Множитель без px, % и em масштабируется вместе с текстом."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "max-width\\s*:\\s*(\\d|[1-6]\\d|70)(\\.\\d+)?ch",
+            "label": "Ширина абзаца до 70ch",
+            "hint": "Ширину строки в символах задают через max-width в единицах ch."
+          },
+          {
+            "type": "style",
+            "selector": "article h1",
+            "prop": "font-weight",
+            "equals": "700",
+            "label": "Заголовок жирный (700)",
+            "hint": "Начертание — font-weight. 700 — это bold."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "article\\s+h1\\s*\\{[^}]*line-height\\s*:\\s*(1(\\.([01]\\d*|2[0-5]?))?|0?\\.\\d+)\\s*;",
+            "label": "Интерлиньяж заголовка множителем до 1.25",
+            "hint": "Крупному тексту нужен плотный интерлиньяж. Задайте line-height множителем, например 1.2."
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Почему ^^line-height^^ лучше писать **без единиц** (1.5), а не в px?",
+          "options": [
+            "Так короче",
+            "Множитель масштабируется вместе с размером шрифта",
+            "px не работает",
+            "Так требует браузер"
+          ],
+          "correct": 1,
+          "explain": "Если у вложенного элемента шрифт больше, строка вырастет пропорционально. С px она останется фиксированной."
+        },
+        {
+          "q": "Letter spacing в Figma −2%. Что написать в CSS?",
+          "options": [
+            "letter-spacing: -2px",
+            "letter-spacing: -2%",
+            "letter-spacing: -0.02em",
+            "letter-spacing: -0.2rem"
+          ],
+          "correct": 2,
+          "explain": "Проценты Figma соответствуют em в CSS: −2% = −0.02em."
+        },
+        {
+          "q": "Какая длина строки считается самой удобной для чтения?",
+          "options": [
+            "10–20 символов",
+            "45–75 символов",
+            "100–150 символов",
+            "Чем длиннее, тем лучше"
+          ],
+          "correct": 1,
+          "explain": "На длинной строке глаз теряет начало следующей, на короткой текст рвётся. В CSS это max-width: 65ch."
+        },
+        {
+          "q": "Что делает ^^font-family: system-ui^^?",
+          "options": [
+            "Загружает Inter",
+            "Использует системный шрифт платформы: SF Pro, Roboto, Segoe UI",
+            "Включает моноширинный шрифт",
+            "Ничего"
+          ],
+          "correct": 1,
+          "explain": "system-ui даёт нативный вид без загрузки файлов."
+        }
+      ],
+      "practice": "- Отдавайте текстовые стили **таблицей токенов**: имя, размер в rem, line-height множителем, вес, letter-spacing в em. Это готовый CSS.\n- Задайте в макетах максимальную ширину текстовых блоков, а не только ширину колонки. На широком мониторе текст не должен растягиваться на 200 символов.\n- Если хочется «как в макете», но шрифт другой — помните про **fallback**: пока шрифт грузится, пользователь видит системный. Подбирайте похожий запасной, чтобы страница не «прыгала»."
+    },
+    {
+      "id": "l4-color",
+      "title": "Цвет: hex, rgb, hsl и прозрачность",
+      "summary": "Форматы цвета, полупрозрачность, color-mix и цветовые состояния кнопки.",
+      "duration": "60–90 мин",
+      "skills": {
+        "tokens": 3,
+        "layout": 1
+      },
+      "theory": [
+        "### Форматы цвета\n\n~~~css\ncolor: #3b5bdb;                 /* HEX: как в Figma */\ncolor: rgb(59 91 219);          /* красный, зелёный, синий: 0–255 */\ncolor: rgb(59 91 219 / 0.5);    /* … с прозрачностью 50% */\ncolor: hsl(228 70% 55%);        /* оттенок, насыщенность, светлота */\ncolor: oklch(55% 0.18 265);     /* современный «перцептивный» формат */\n~~~\n\nВсе они описывают один и тот же цвет. Браузер внутри всё равно переводит их в rgb. Это видно во вкладке Computed.",
+        "### HSL — формат для людей\n\n**H**ue (оттенок, 0–360° по цветовому кругу), **S**aturation (насыщенность, 0–100%), **L**ightness (светлота, 0–100%).\n\nГлавная прелесть: чтобы сделать hover-состояние **темнее**, меняем только L. Чтобы получить приглушённый вариант — уменьшаем S:\n\n~~~css\n.btn       { background: hsl(228 70% 55%); }\n.btn:hover { background: hsl(228 70% 47%); } /* темнее */\n.btn-soft  { background: hsl(228 70% 95%); } /* светлый фон */\n~~~\n\n**OKLCH** — продвинутая версия: в нём «одинаковая светлота» выглядит одинаково для глаза у любого оттенка. Именно на таких моделях строят палитры дизайн-систем (в том числе Material 3, у которого своя модель HCT).",
+        "### Прозрачность: три способа\n\n| Способ | Что становится прозрачным |\n|---|---|\n| `rgb(0 0 0 / 0.5)` в background | только фон |\n| `opacity: 0.5` | **весь элемент** вместе с текстом и детьми |\n| `color-mix(in srgb, #3b5bdb 20%, transparent)` | смесь цвета с прозрачным или с другим цветом |\n\nЧастая ошибка — поставить `opacity` карточке ради полупрозрачного фона. Текст тоже станет бледным.\n\n### Состояния\n\nВ CSS состояния — это **псевдоклассы**: `:hover` (наведение), `:active` (нажатие), `:focus-visible` (фокус с клавиатуры), `:disabled` (отключено).\n\n~~~css\n.btn:hover    { … }\n.btn:active   { … }\n.btn:disabled { opacity: 0.5; cursor: not-allowed; }\n~~~"
+      ],
+      "figma": "- **HEX в Figma = HEX в CSS.** Но Figma хранит прозрачность отдельно (Opacity слоя или заливки). В CSS это разные вещи: прозрачность заливки — `rgb(… / 0.5)`, прозрачность слоя — `opacity`.\n- **Варианты State=Hover/Pressed/Disabled** у компонента = псевдоклассы `:hover`, `:active`, `:disabled`.\n- **Color styles / Variables** в Figma = CSS-переменные. Подробно — в модуле 6 про токены. Загляните на страницу «Токены сайта», чтобы увидеть, как это устроено здесь.\n- В Figma цвет выбирается в пикере **HSB**, а в CSS используется **HSL**. Это похожие, но разные модели: B (brightness) ≠ L (lightness).",
+      "widgets": [
+        {
+          "type": "playground",
+          "title": "Палитра кнопки из одного оттенка",
+          "description": "Все четыре состояния построены от одного hue. Меняйте оттенок — палитра пересобирается целиком. Это и есть мышление токенами.",
+          "height": 260,
+          "html": "<div class=\"row\"><button class=\"b\">Default</button><button class=\"b h\">Hover</button><button class=\"b a\">Pressed</button><button class=\"b soft\">Soft</button><button class=\"b\" disabled>Disabled</button></div>",
+          "css": "body{font-family:system-ui;padding:24px;background:#fff}.row{display:flex;gap:12px;flex-wrap:wrap}\n.b      { background: hsl(var(--h) var(--s) 52%); color: white; border: 0; padding: 12px 18px; border-radius: 10px; font-weight: 600; font-size: 15px; }\n.b.h    { background: hsl(var(--h) var(--s) 44%); }\n.b.a    { background: hsl(var(--h) var(--s) 36%); }\n.b.soft { background: hsl(var(--h) var(--s) 94%); color: hsl(var(--h) var(--s) 36%); }\n.b:disabled { opacity: 0.45; }",
+          "code": ".btn         { background: hsl(var(--h) var(--s) 52%); }\n.btn:hover   { background: hsl(var(--h) var(--s) 44%); }\n.btn:active  { background: hsl(var(--h) var(--s) 36%); }\n.btn-soft    { background: hsl(var(--h) var(--s) 94%); }\n.btn:disabled { opacity: 0.45; }",
+          "controls": [
+            {
+              "type": "range",
+              "var": "--h",
+              "label": "Hue (оттенок)",
+              "min": 0,
+              "max": 360,
+              "value": 228
+            },
+            {
+              "type": "range",
+              "var": "--s",
+              "label": "Saturation",
+              "min": 0,
+              "max": 100,
+              "unit": "%",
+              "value": 70
+            }
+          ]
+        }
+      ],
+      "task": {
+        "id": "button-states",
+        "title": "Состояния кнопки в HSL",
+        "brief": "Сделайте основную кнопку `.btn` и все её состояния:\n\n1. фон `.btn` задайте в формате `hsl(...)`, текст белый;\n2. `.btn:hover` — тот же оттенок, но темнее (тоже `hsl`);\n3. `.btn:disabled` — полупрозрачная через `opacity` (от 0.3 до 0.6);\n4. у `.btn-ghost` фон должен быть **прозрачным**, а цвет текста — любым непрозрачным. Подсказка: `transparent`.",
+        "files": {
+          "html": "<div class=\"row\">\n  <button class=\"btn\">Сохранить</button>\n  <button class=\"btn\" disabled>Сохранить</button>\n  <button class=\"btn btn-ghost\">Отмена</button>\n</div>",
+          "css": "body { font-family: system-ui; padding: 24px; }\n.row { display: flex; gap: 12px; }\nbutton { border: 0; padding: 12px 20px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }\n\n.btn {\n\n}\n\n.btn:hover {\n\n}\n\n.btn:disabled {\n\n}\n\n.btn-ghost {\n\n}\n"
+        },
+        "checks": [
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.btn\\s*\\{[^}]*background(-color)?\\s*:\\s*hsla?\\(",
+            "label": "Фон .btn задан в hsl()",
+            "hint": "Запишите фон в виде hsl(оттенок насыщенность% светлота%)."
+          },
+          {
+            "type": "style",
+            "selector": ".btn:not(.btn-ghost):not(:disabled)",
+            "prop": "color",
+            "equals": "rgb(255, 255, 255)",
+            "label": "Текст кнопки белый",
+            "hint": "Цвет текста — свойство color."
+          },
+          {
+            "type": "source",
+            "file": "css",
+            "pattern": "\\.btn:hover\\s*\\{[^}]*background(-color)?\\s*:\\s*hsla?\\(",
+            "label": "Hover тоже в hsl()",
+            "hint": "Скопируйте фон из .btn в .btn:hover и уменьшите третье число — светлоту."
+          },
+          {
+            "type": "style",
+            "selector": ".btn:disabled",
+            "prop": "opacity",
+            "min": 0.3,
+            "max": 0.6,
+            "label": "Disabled полупрозрачная (0.3–0.6)",
+            "hint": "Свойство opacity принимает число от 0 до 1."
+          },
+          {
+            "type": "style",
+            "selector": ".btn-ghost",
+            "prop": "background-color",
+            "equals": "rgba(0, 0, 0, 0)",
+            "label": "У ghost-кнопки прозрачный фон",
+            "hint": "Правило .btn-ghost должно перебить фон из .btn. Для полной прозрачности есть ключевое слово."
+          },
+          {
+            "type": "style",
+            "selector": ".btn-ghost",
+            "prop": "color",
+            "pattern": "^rgb\\(",
+            "label": "У ghost-кнопки видимый цвет текста",
+            "hint": "Белый текст на прозрачном фоне не виден. Задайте .btn-ghost цвет, например тот же hsl, что у фона основной кнопки.",
+            "notEquals": "rgb(255, 255, 255)"
+          }
+        ]
+      },
+      "quiz": [
+        {
+          "q": "Нужно сделать hover-состояние **темнее**. Что проще всего поменять в ^^hsl(228 70% 55%)^^?",
+          "options": [
+            "Первое число (hue)",
+            "Второе (saturation)",
+            "Третье (lightness) — уменьшить",
+            "Добавить opacity"
+          ],
+          "correct": 2,
+          "explain": "Lightness отвечает за светлоту. Меньше — темнее, оттенок не меняется."
+        },
+        {
+          "q": "Карточке поставили ^^opacity: 0.5^^, чтобы фон стал полупрозрачным. Что пошло не так?",
+          "options": [
+            "Ничего",
+            "Полупрозрачным стал весь элемент, вместе с текстом",
+            "Карточка исчезла",
+            "Фон стал чёрным"
+          ],
+          "correct": 1,
+          "explain": "opacity действует на весь элемент. Для фона используйте rgb(… / 0.5) или color-mix."
+        },
+        {
+          "q": "Какой псевдокласс соответствует состоянию **Pressed**?",
+          "options": [
+            ":hover",
+            ":active",
+            ":focus",
+            ":checked"
+          ],
+          "correct": 1,
+          "explain": ":active срабатывает в момент нажатия."
+        },
+        {
+          "q": "Чем **OKLCH** лучше HSL для палитр?",
+          "options": [
+            "Он короче",
+            "Одинаковая «светлота» в нём выглядит одинаково для глаза у разных оттенков",
+            "Его поддерживает только Safari",
+            "Ничем"
+          ],
+          "correct": 1,
+          "explain": "В HSL жёлтый и синий с L=50% выглядят совсем по-разному по яркости. Перцептивные модели это исправляют."
+        }
+      ],
+      "practice": "- Стройте палитру **шкалами** (blue-100 … blue-900), а состояния выводите из них. Разработчик заведёт это как токены, и hover не придётся «подбирать пипеткой».\n- В спецификации состояний указывайте **правило**, а не только цвет: «hover = на один шаг шкалы темнее», «disabled = opacity 0.45». Так правило переживёт смену бренда.\n- Помните про тёмную тему: просто инвертировать цвета не получится. Об этом — в модуле 6 про токены и темы."
+    }
+  ]
+}
